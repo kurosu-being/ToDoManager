@@ -65,13 +65,13 @@ namespace ToDoManager.Models
         /// <returns>サマリー文字列</returns>
         string ISavable.GetSummary()
         {
-            return string.Format("{0} (期限: {1:yyyy/MM/dd})", Title, DueDate);
+            return $"{Title} (期限: {DueDate:yyyy/MM/dd})";
         }
 
         // 三項演算子の活用
         public override string ToString()
         {
-            return string.Format("[{0}] {1}", IsCompleted ? "完了" : "未", Title);
+            return $"[{(IsCompleted ? "完了" : "未")}] {Title}";
         }
     }
 }

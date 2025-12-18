@@ -21,7 +21,7 @@ namespace ToDoManager
         public TodoEditForm(TodoItem vItem)
         {
             InitializeComponent();
-            Item = vItem;
+            this.Item = vItem;
             FTxtTitle.Text = vItem.Title;
             FTxtContent.Text = vItem.Content;
             FDtpDueDate.Value = vItem.DueDate == default(DateTime) ? DateTime.Now : vItem.DueDate;
@@ -31,9 +31,9 @@ namespace ToDoManager
         /// <summary>
         /// 保存ボタンがクリックされたときの処理
         /// </summary>
-        /// <param name="vSender">イベントの送信元</param>
-        /// <param name="vE">イベントデータ</param>
-        private void FBtnSave_Click(object vSender, EventArgs vE)
+        /// <param name="sender">イベントの送信元</param>
+        /// <param name="e">イベントデータ</param>
+        private void FBtnSave_Click(object sender, EventArgs e)
         {
             Item.Title = FTxtTitle.Text;
             Item.Content = FTxtContent.Text;
