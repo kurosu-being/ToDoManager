@@ -1,4 +1,4 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+ï»¿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using ToDoManager.Models;
@@ -8,13 +8,13 @@ using System.Collections.Generic;
 namespace ToDoManagerTests
 {
     /// <summary>
-    /// TodoService‚Ì’P‘ÌƒeƒXƒgƒNƒ‰ƒX
+    /// TodoServiceã®å˜ä½“ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
     /// </summary>
     [TestClass]
     public class TodoServiceTests
     {
         /// <summary>
-        /// AddOrUpdate‚ÅV‹KƒAƒCƒeƒ€‚ª’Ç‰Á‚³‚ê‚é‚±‚Æ
+        /// AddOrUpdateã§æ–°è¦ã‚¢ã‚¤ãƒ†ãƒ ãŒè¿½åŠ ã•ã‚Œã‚‹ã“ã¨
         /// </summary>
         [TestMethod]
         public void AddOrUpdate_AddsNewItem()
@@ -28,7 +28,7 @@ namespace ToDoManagerTests
         }
 
         /// <summary>
-        /// AddOrUpdate‚ÅŠù‘¶ƒAƒCƒeƒ€‚ªXV‚³‚ê‚é‚±‚Æ‚ğƒeƒXƒg‚µ‚Ü‚·B
+        /// AddOrUpdateã§æ—¢å­˜ã‚¢ã‚¤ãƒ†ãƒ ãŒæ›´æ–°ã•ã‚Œã‚‹ã“ã¨
         /// </summary>
         [TestMethod]
         public void AddOrUpdate_UpdatesExistingItem()
@@ -44,7 +44,7 @@ namespace ToDoManagerTests
         }
 
         /// <summary>
-        /// Delete‚ÅƒAƒCƒeƒ€‚ªíœ‚³‚ê‚é‚±‚Æ‚ğƒeƒXƒg‚µ‚Ü‚·B
+        /// Deleteã§ã‚¢ã‚¤ãƒ†ãƒ ãŒå‰Šé™¤ã•ã‚Œã‚‹ã“ã¨
         /// </summary>
         [TestMethod]
         public void Delete_RemovesItem()
@@ -58,7 +58,7 @@ namespace ToDoManagerTests
         }
 
         /// <summary>
-        /// GetSortedItems‚ÅŠúŒÀ‡‚Éƒ\[ƒg‚³‚ê‚é‚±‚Æ‚ğƒeƒXƒg‚µ‚Ü‚·B
+        /// GetSortedItemsã§æœŸé™é †ã«ã‚½ãƒ¼ãƒˆã•ã‚Œã‚‹ã“ã¨
         /// </summary>
         [TestMethod]
         public void GetSortedItems_ReturnsItemsSortedByDueDate()
@@ -74,7 +74,7 @@ namespace ToDoManagerTests
         }
 
         /// <summary>
-        /// GetItemMap‚ÅƒfƒBƒNƒVƒ‡ƒiƒŠ‚ª³‚µ‚­•Ô‚é‚±‚Æ‚ğƒeƒXƒg‚µ‚Ü‚·B
+        /// GetItemMapã§ãƒ‡ã‚£ã‚¯ã‚·ãƒ§ãƒŠãƒªãŒæ­£ã—ãè¿”ã‚‹ã“ã¨
         /// </summary>
         [TestMethod]
         public void GetItemMap_ReturnsDictionary()

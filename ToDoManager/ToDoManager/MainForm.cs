@@ -11,13 +11,15 @@ namespace ToDoManager
     /// </summary>
     public partial class MainForm : Form
     {
+        #region フィールド
         /// <summary>
         /// ToDoサービスのインスタンス。
         /// </summary>
         private readonly TodoService FService = new TodoService();
+        #endregion
 
         /// <summary>
-        /// MainFormの新しいインスタンスを初期化
+        /// コンストラクタ
         /// </summary>
         public MainForm()
         {
@@ -27,6 +29,7 @@ namespace ToDoManager
             SetFieldsReadOnly(true);
         }
 
+        #region privateメソッド
         /// <summary>
         /// 右側の入力フィールドの編集可否を設定
         /// </summary>
@@ -148,5 +151,6 @@ namespace ToDoManager
                 SetFieldsReadOnly(true);
             }
         }
+        #endregion
     }
 }

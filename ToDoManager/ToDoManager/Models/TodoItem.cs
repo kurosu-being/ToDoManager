@@ -34,6 +34,7 @@ namespace ToDoManager.Models
     [Serializable]
     public class TodoItem : EntityBase, ISavable
     {
+        #region プロパティ
         /// <summary>
         /// タイトル。
         /// </summary>
@@ -57,6 +58,7 @@ namespace ToDoManager.Models
         /// </summary>
         [XmlElement("IsCompleted")]
         public bool IsCompleted { get; set; }
+        #endregion
 
         // インターフェースの明示的な実装
         /// <summary>
@@ -69,6 +71,10 @@ namespace ToDoManager.Models
         }
 
         // 三項演算子の活用
+        /// <summary>
+        /// タイトルと完了状態を表す文字列を返します。
+        /// </summary>
+        /// <returns>表示用文字列</returns>
         public override string ToString()
         {
             return $"[{(IsCompleted ? "完了" : "未")}] {Title}";

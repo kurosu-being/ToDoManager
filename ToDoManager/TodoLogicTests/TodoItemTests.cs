@@ -1,34 +1,34 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+ï»¿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using ToDoManager.Models;
 
 namespace ToDoManagerTests
 {
     /// <summary>
-    /// TodoItem‚Ì’P‘ÌƒeƒXƒgƒNƒ‰ƒX‚Å‚·B
+    /// TodoItemã®å˜ä½“ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹
     /// </summary>
     [TestClass]
     public class TodoItemTests
     {
         /// <summary>
-        /// ToString‚ªŠú‘Ò’Ê‚è‚ÌƒtƒH[ƒ}ƒbƒg‚ğ•Ô‚·‚±‚Æ‚ğƒeƒXƒg‚µ‚Ü‚·B
+        /// ToStringãŒæœŸå¾…é€šã‚Šã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’è¿”ã™ã“ã¨
         /// </summary>
         [TestMethod]
         public void ToString_ReturnsExpectedFormat()
         {
             var wItem = new TodoItem { Title = "Test", IsCompleted = true };
-            Assert.AreEqual("[Š®—¹] Test", wItem.ToString());
+            Assert.AreEqual("[å®Œäº†] Test", wItem.ToString());
         }
 
         /// <summary>
-        /// GetSummary‚ªŠú‘Ò’Ê‚è‚ÌƒTƒ}ƒŠ[‚ğ•Ô‚·‚±‚Æ‚ğƒeƒXƒg‚µ‚Ü‚·B
+        /// GetSummaryãŒæœŸå¾…é€šã‚Šã®ã‚µãƒãƒªãƒ¼ã‚’è¿”ã™ã“ã¨
         /// </summary>
         [TestMethod]
         public void GetSummary_ReturnsExpectedSummary()
         {
             var wItem = new TodoItem { Title = "Test", DueDate = new DateTime(2024, 1, 1) };
             var wSummary = ((ISavable)wItem).GetSummary();
-            Assert.AreEqual("Test (ŠúŒÀ: 2024/01/01)", wSummary);
+            Assert.AreEqual("Test (æœŸé™: 2024/01/01)", wSummary);
         }
     }
 }

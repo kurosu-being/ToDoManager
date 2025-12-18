@@ -9,13 +9,19 @@ namespace ToDoManager
     /// </summary>
     public partial class TodoEditForm : Form
     {
+        #region フィールド
+        // Designerで定義されるコントロールはここに宣言されている前提
+        #endregion
+
+        #region プロパティ
         /// <summary>
         /// 編集対象のToDoアイテムを取得
         /// </summary>
         public TodoItem Item { get; private set; }
+        #endregion
 
         /// <summary>
-        /// TodoEditFormの新しいインスタンスを初期化
+        /// コンストラクタ
         /// </summary>
         /// <param name="vItem">編集対象のToDoアイテム</param>
         public TodoEditForm(TodoItem vItem)
@@ -28,6 +34,7 @@ namespace ToDoManager
             FChkDone.Checked = vItem.IsCompleted;
         }
 
+        #region privateメソッド
         /// <summary>
         /// 保存ボタンがクリックされたときの処理
         /// </summary>
@@ -42,5 +49,6 @@ namespace ToDoManager
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+        #endregion
     }
 }

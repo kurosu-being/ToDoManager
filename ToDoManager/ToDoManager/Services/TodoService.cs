@@ -12,9 +12,17 @@ namespace ToDoManager.Services
     /// </summary>
     public class TodoService : IDisposable
     {
+        #region フィールド
         private List<TodoItem> FItems = new List<TodoItem>();
         private readonly string C_FilePath = "todo_data.xml";
+        #endregion
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public TodoService() { }
+
+        #region publicメソッド
         /// <summary>
         /// ToDoアイテムのディクショナリを取得する。
         /// </summary>
@@ -113,5 +121,6 @@ namespace ToDoManager.Services
         {
             // 終了時の処理など
         }
+        #endregion
     }
 }
