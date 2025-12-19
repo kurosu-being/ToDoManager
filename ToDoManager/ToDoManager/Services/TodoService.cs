@@ -39,9 +39,9 @@ namespace ToDoManager.Services
         /// <returns>条件に一致するToDoアイテムの列挙</returns>
         public IEnumerable<TodoItem> GetItems(string vFilter = null)
         {
-            // 短絡評価の活用
-            var vQuery = FItems.Where(x => string.IsNullOrEmpty(vFilter) || x.Title.Contains(vFilter));
-            foreach (var vItem in vQuery) yield return vItem;
+            // yield return を使った遅延実行
+            var wQuery = FItems.Where(x => string.IsNullOrEmpty(vFilter) || x.Title.Contains(vFilter));
+            foreach (var wItem in wQuery) yield return wItem;
         }
 
         /// <summary>

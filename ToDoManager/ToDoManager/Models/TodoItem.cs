@@ -10,7 +10,7 @@ namespace ToDoManager.Models
     public abstract class EntityBase
     {
         /// <summary>
-        /// エンティティのID。
+        /// ID
         /// </summary>
         public int Id { get; set; }
     }
@@ -22,7 +22,7 @@ namespace ToDoManager.Models
     public interface ISavable
     {
         /// <summary>
-        /// エンティティのサマリーを取得
+        /// サマリーを取得
         /// </summary>
         /// <returns>サマリー文字列</returns>
         string GetSummary();
@@ -34,7 +34,6 @@ namespace ToDoManager.Models
     [Serializable]
     public class TodoItem : EntityBase, ISavable
     {
-        #region プロパティ
         /// <summary>
         /// タイトル。
         /// </summary>
@@ -58,11 +57,10 @@ namespace ToDoManager.Models
         /// </summary>
         [XmlElement("IsCompleted")]
         public bool IsCompleted { get; set; }
-        #endregion
 
         // インターフェースの明示的な実装
         /// <summary>
-        /// サマリー文字列を取得する。
+        /// サマリー文字列を取得
         /// </summary>
         /// <returns>サマリー文字列</returns>
         string ISavable.GetSummary()

@@ -9,9 +9,6 @@ namespace ToDoManager
     /// </summary>
     public partial class TodoEditForm : Form
     {
-        #region フィールド
-        // Designerで定義されるコントロールはここに宣言されている前提
-        #endregion
 
         #region プロパティ
         /// <summary>

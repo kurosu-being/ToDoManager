@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using ToDoManager.Models;
 using ToDoManager.Services;
-using System.Collections.Generic;
 
 namespace ToDoManagerTests
 {
