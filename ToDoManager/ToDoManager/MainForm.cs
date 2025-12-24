@@ -141,13 +141,14 @@ namespace ToDoManager
         /// </summary>
         private void FLstItems_SelectedIndexChanged(object sender, EventArgs e)
         {
+            SetFieldsReadOnly(true);
             if (FLstItems.SelectedItem is TodoItem vSelected)
             {
                 FTxtTitle.Text = vSelected.Title;
                 FTxtContent.Text = vSelected.Content;
                 FDtpDueDate.Value = vSelected.DueDate;
                 FChkDone.Checked = vSelected.IsCompleted;
-                SetFieldsReadOnly(true); // 常に読み取り専用
+                 
             }
             else
             {
@@ -155,7 +156,6 @@ namespace ToDoManager
                 FTxtContent.Text = string.Empty;
                 FDtpDueDate.Value = DateTime.Now;
                 FChkDone.Checked = false;
-                SetFieldsReadOnly(true);
             }
         }
         #endregion
