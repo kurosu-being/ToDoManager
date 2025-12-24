@@ -14,7 +14,7 @@ namespace ToDoManager.Services
     {
         #region フィールド
         private List<TodoItem> FItems = new List<TodoItem>();
-        private readonly string C_FilePath = "todo_data.xml";
+        private string FFilePath;
         #endregion
 
         /// <summary>
@@ -95,22 +95,24 @@ namespace ToDoManager.Services
         public void ExportXml()
         {
             var vSerializer = new XmlSerializer(typeof(List<TodoItem>));
-            using (var vSw = new StreamWriter(C_FilePath)) // using ステートメント
+            using (var vSw = new StreamWriter(FFilePath))
             {
                 vSerializer.Serialize(vSw, FItems);
             }
         }
 
         /// <summary>
-        /// XMLファイルからToDoアイテムを読み込み
+        /// 指定したXMLファイルからToDoアイテムを読み込み
         /// </summary>
-        public void LoadXml()
+        /// <param name="vFilePath">読み込むXMLファイルのパス</param>
+        public void LoadXml(string vFilePath)
         {
-            if (!File.Exists(C_FilePath)) return;
-            var vSerializer = new XmlSerializer(typeof(List<TodoItem>));
-            using (var vSr = new StreamReader(C_FilePath))
+            if (string.IsNullOrWhiteSpace(vFilePath) || !File.Exists(vFilePath)) return;
+            var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
+            using (var wSr = new StreamReader(vFilePath))
             {
-                FItems = (List<TodoItem>)vSerializer.Deserialize(vSr);
+                FItems = (List<TodoItem>)wSerializer.Deserialize(wSr);
+                FFilePath = vFilePath;
             }
         }
 

@@ -24,7 +24,6 @@ namespace ToDoManager
         public MainForm()
         {
             InitializeComponent();
-            FService.LoadXml();
             UpdateList();
             SetFieldsReadOnly(true);
         }
@@ -49,9 +48,9 @@ namespace ToDoManager
         private void UpdateList(string vFilter = null)
         {
             FLstItems.Items.Clear();
-            foreach (var vItem in FService.GetItems(vFilter))
+            foreach (var wItem in FService.GetItems(vFilter))
             {
-                FLstItems.Items.Add(vItem);
+                FLstItems.Items.Add(wItem);
             }
         }
 
@@ -60,11 +59,11 @@ namespace ToDoManager
         /// </summary>
         private void FBtnAdd_Click(object sender, EventArgs e)
         {
-            using (var vForm = new TodoEditForm(new TodoItem()))
+            using (var wForm = new TodoEditForm(new TodoItem()))
             {
-                if (vForm.ShowDialog() == DialogResult.OK)
+                if (wForm.ShowDialog() == DialogResult.OK)
                 {
-                    FService.AddOrUpdate(vForm.Item);
+                    FService.AddOrUpdate(wForm.Item);
                     UpdateList();
                 }
             }
@@ -75,13 +74,13 @@ namespace ToDoManager
         /// </summary>
         private void FBtnEdit_Click(object sender, EventArgs e)
         {
-            if (FLstItems.SelectedItem is TodoItem vSelected)
+            if (FLstItems.SelectedItem is TodoItem wSelected)
             {
-                using (var vForm = new TodoEditForm(vSelected))
+                using (var wForm = new TodoEditForm(wSelected))
                 {
-                    if (vForm.ShowDialog() == DialogResult.OK)
+                    if (wForm.ShowDialog() == DialogResult.OK)
                     {
-                        FService.AddOrUpdate(vForm.Item);
+                        FService.AddOrUpdate(wForm.Item);
                         UpdateList();
                     }
                 }
@@ -93,9 +92,9 @@ namespace ToDoManager
         /// </summary>
         private void FBtnDelete_Click(object sender, EventArgs e)
         {
-            if (FLstItems.SelectedItem is TodoItem vSelected)
+            if (FLstItems.SelectedItem is TodoItem wSelected)
             {
-                FService.Delete(vSelected.Id);
+                FService.Delete(wSelected.Id);
                 UpdateList();
             }
         }
@@ -105,28 +104,36 @@ namespace ToDoManager
         /// </summary>
         private void FBtnSort_Click(object sender, EventArgs e)
         {
-            var vSorted = FService.GetSortedItems();
+            var wSorted = FService.GetSortedItems();
             FLstItems.Items.Clear();
-            foreach (var vItem in vSorted) FLstItems.Items.Add(vItem);
+            foreach (var wItem in wSorted) FLstItems.Items.Add(wItem);
         }
 
         /// <summary>
-        /// XML保存ボタンのクリックイベント。
+        /// 保存ボタンのクリックイベント。
         /// </summary>
         private void FBtnXml_Click(object sender, EventArgs e)
         {
             FService.ExportXml();
-            MessageBox.Show("XMLに保存しました。");
+            MessageBox.Show("保存しました。");
         }
 
         /// <summary>
-        /// XML読込ボタンのクリックイベント。
+        /// 読込ボタンのクリックイベント。
         /// </summary>
         private void FBtnXmlLoad_Click(object sender, EventArgs e)
         {
-            FService.LoadXml();
-            UpdateList();
-            MessageBox.Show("XMLを読み込みました。");
+            using (var wDialog = new OpenFileDialog())
+            {
+                wDialog.Filter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
+                wDialog.Title = "ファイルを選択";
+                if (wDialog.ShowDialog() == DialogResult.OK)
+                {
+                    FService.LoadXml(wDialog.FileName);
+                    UpdateList();
+                    MessageBox.Show("ファイルを読み込みました。");
+                }
+            }
         }
 
         /// <summary>
