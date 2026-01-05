@@ -58,6 +58,18 @@ namespace ToDoManager.Models
         [XmlElement("IsCompleted")]
         public bool IsCompleted { get; set; }
 
+        private PriorityLevel _priority = PriorityLevel.Normal;
+
+        /// <summary>
+        /// 優先度
+        /// </summary>
+        [XmlElement("Priority")]
+        public PriorityLevel Priority
+        {
+            get { return _priority; }
+            set { _priority = value; }
+        }
+
         // インターフェースの明示的な実装
         /// <summary>
         /// サマリー文字列を取得
@@ -88,5 +100,15 @@ namespace ToDoManager.Models
                 throw new ArgumentException("タイトルは必須入力です。");
             }
         }
+    }
+
+    /// <summary>
+    /// 優先度レベル
+    /// </summary>
+    public enum PriorityLevel
+    {
+        High,
+        Normal,
+        Low
     }
 }
