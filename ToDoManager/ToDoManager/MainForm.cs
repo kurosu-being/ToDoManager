@@ -13,7 +13,7 @@ namespace ToDoManager
     {
         #region フィールド
         /// <summary>
-        /// ToDoサービスのインスタンス。
+        /// ToDoサービスのインスタンス
         /// </summary>
         private readonly TodoService FService = new TodoService();
         #endregion
@@ -65,6 +65,7 @@ namespace ToDoManager
                 {
                     FService.AddOrUpdate(wForm.Item);
                     UpdateList();
+
                 }
             }
         }
@@ -115,7 +116,6 @@ namespace ToDoManager
         private void FBtnXml_Click(object sender, EventArgs e)
         {
             FService.ExportXml();
-            MessageBox.Show("保存しました。");
         }
 
         /// <summary>

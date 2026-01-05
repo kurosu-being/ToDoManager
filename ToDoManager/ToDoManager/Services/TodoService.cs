@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using System.Windows.Forms;
 using ToDoManager.Models;
 
 namespace ToDoManager.Services
@@ -15,6 +16,7 @@ namespace ToDoManager.Services
         #region フィールド
         private List<TodoItem> FItems = new List<TodoItem>();
         private string FFilePath;
+        private const string DefaultFileName = "TodoItems.xml";
         #endregion
 
         /// <summary>
@@ -24,7 +26,7 @@ namespace ToDoManager.Services
 
         #region publicメソッド
         /// <summary>
-        /// ToDoアイテムのディクショナリを取得する。
+        /// ToDoアイテムのディクショナリを取得する
         /// </summary>
         /// <returns>Idをキー、TodoItemを値とするディクショナリ</returns>
         public Dictionary<int, TodoItem> GetItemMap()
@@ -33,7 +35,7 @@ namespace ToDoManager.Services
         }
 
         /// <summary>
-        /// フィルタ条件に一致するToDoアイテムの列挙を返す。
+        /// フィルタ条件に一致するToDoアイテムの列挙を返す
         /// </summary>
         /// <param name="vFilter">タイトルに含まれる文字列（nullまたは空で全件）</param>
         /// <returns>条件に一致するToDoアイテムの列挙</returns>
@@ -45,7 +47,7 @@ namespace ToDoManager.Services
         }
 
         /// <summary>
-        /// 期限順にソートされたToDoアイテムのリストを返す。
+        /// 期限順にソートされたToDoアイテムのリストを返す
         /// </summary>
         /// <returns>期限順のToDoアイテムリスト</returns>
         public List<TodoItem> GetSortedItems()
@@ -58,11 +60,15 @@ namespace ToDoManager.Services
         /// ToDoアイテムを追加または更新
         /// </summary>
         /// <param name="vItem">追加・更新するToDoアイテム</param>
+        /// <returns>成功時true/失敗時false</returns>
         public void AddOrUpdate(TodoItem vItem)
         {
             // 責務分離: 引数チェック
             if (vItem == null) throw new ArgumentNullException(nameof(vItem));
-            if (string.IsNullOrWhiteSpace(vItem.Title)) throw new ArgumentException("タイトルが必要です");
+            if (string.IsNullOrWhiteSpace(vItem.Title))
+            {
+                MessageBox.Show("タイトルを入力して下さい。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             var vExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
             if (vExisting != null)
@@ -95,9 +101,30 @@ namespace ToDoManager.Services
         public void ExportXml()
         {
             var vSerializer = new XmlSerializer(typeof(List<TodoItem>));
+            if (string.IsNullOrWhiteSpace(FFilePath))
+            {
+                using (var saveFileDialog = new SaveFileDialog())
+                {
+                    saveFileDialog.Title = "名前を付けて保存";
+                    saveFileDialog.Filter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
+                    saveFileDialog.FileName = DefaultFileName;
+                    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        FFilePath = saveFileDialog.FileName;
+                        MessageBox.Show("保存しました。");
+                    }
+                    else
+                    {
+                        // ユーザーがキャンセルした場合は保存処理を中断
+                        return;
+                    }
+                }
+            }
             using (var vSw = new StreamWriter(FFilePath))
             {
                 vSerializer.Serialize(vSw, FItems);
+                MessageBox.Show("保存しました。");
             }
         }
 

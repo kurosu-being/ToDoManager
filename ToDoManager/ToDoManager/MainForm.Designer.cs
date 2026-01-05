@@ -158,9 +158,9 @@
             // FBtnXml
             // 
             this.FBtnXml.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.FBtnXml.Location = new System.Drawing.Point(348, 332);
+            this.FBtnXml.Location = new System.Drawing.Point(425, 332);
             this.FBtnXml.Name = "FBtnXml";
-            this.FBtnXml.Size = new System.Drawing.Size(80, 30);
+            this.FBtnXml.Size = new System.Drawing.Size(72, 30);
             this.FBtnXml.TabIndex = 9;
             this.FBtnXml.Text = "保存(&S)";
             this.FBtnXml.UseVisualStyleBackColor = true;
@@ -169,9 +169,9 @@
             // FBtnXmlLoad
             // 
             this.FBtnXmlLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.FBtnXmlLoad.Location = new System.Drawing.Point(425, 332);
+            this.FBtnXmlLoad.Location = new System.Drawing.Point(348, 332);
             this.FBtnXmlLoad.Name = "FBtnXmlLoad";
-            this.FBtnXmlLoad.Size = new System.Drawing.Size(80, 30);
+            this.FBtnXmlLoad.Size = new System.Drawing.Size(72, 30);
             this.FBtnXmlLoad.TabIndex = 10;
             this.FBtnXmlLoad.Text = "読込(&L)";
             this.FBtnXmlLoad.UseVisualStyleBackColor = true;

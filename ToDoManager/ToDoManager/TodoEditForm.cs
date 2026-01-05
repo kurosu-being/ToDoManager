@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.XtraPrinting.Native;
+using System;
 using System.Windows.Forms;
 using ToDoManager.Models;
 
@@ -39,6 +40,11 @@ namespace ToDoManager
         /// <param name="e">イベントデータ</param>
         private void FBtnSave_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(FTxtTitle.Text))
+            {
+                MessageBox.Show("タイトルを入力して下さい。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; 
+            }
             Item.Title = FTxtTitle.Text;
             Item.Content = FTxtContent.Text;
             Item.DueDate = FDtpDueDate.Value;

@@ -35,25 +35,25 @@ namespace ToDoManager.Models
     public class TodoItem : EntityBase, ISavable
     {
         /// <summary>
-        /// タイトル。
+        /// タイトル
         /// </summary>
         [XmlElement("Title")]
         public string Title { get; set; }
 
         /// <summary>
-        /// 内容。
+        /// 内容
         /// </summary>
         [XmlElement("Content")]
         public string Content { get; set; }
 
         /// <summary>
-        /// 期限日。
+        /// 期限日
         /// </summary>
         [XmlElement("DueDate")]
         public DateTime DueDate { get; set; }
 
         /// <summary>
-        /// 完了フラグ。
+        /// 完了フラグ
         /// </summary>
         [XmlElement("IsCompleted")]
         public bool IsCompleted { get; set; }
@@ -68,7 +68,6 @@ namespace ToDoManager.Models
             return $"{Title} (期限: {DueDate:yyyy/MM/dd})";
         }
 
-        // 三項演算子の活用
         /// <summary>
         /// タイトルと完了状態を表す文字列を返します。
         /// </summary>
