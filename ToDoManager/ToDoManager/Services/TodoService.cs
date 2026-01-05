@@ -98,18 +98,18 @@ namespace ToDoManager.Services
         /// </summary>
         public void ExportXml()
         {
-            var vSerializer = new XmlSerializer(typeof(List<TodoItem>));
+            var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
             if (string.IsNullOrWhiteSpace(FFilePath))
             {
-                using (var saveFileDialog = new SaveFileDialog())
+                using (var wSaveFileDialog = new SaveFileDialog())
                 {
-                    saveFileDialog.Title = "名前を付けて保存";
-                    saveFileDialog.Filter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
-                    saveFileDialog.FileName = DefaultFileName;
-                    saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    wSaveFileDialog.Title = "名前を付けて保存";
+                    wSaveFileDialog.Filter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
+                    wSaveFileDialog.FileName = DefaultFileName;
+                    wSaveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    if (wSaveFileDialog.ShowDialog() == DialogResult.OK)
                     {
-                        FFilePath = saveFileDialog.FileName;
+                        FFilePath = wSaveFileDialog.FileName;
                     }
                     else
                     {
@@ -120,17 +120,15 @@ namespace ToDoManager.Services
             }
             try
             {
-                var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
-                using (var wSw = new StreamWriter(FFilePath))
+                using (var wStreamWriter = new StreamWriter(FFilePath))
                 {
-                    vSerializer.Serialize(wSw, FItems);
+                    wSerializer.Serialize(wStreamWriter, FItems);
                 }
-
                 MessageBox.Show("保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception ex)
+            catch (Exception wEx)
             {
-                MessageBox.Show($"保存中にエラーが発生しました：{ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"保存中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -142,10 +140,17 @@ namespace ToDoManager.Services
         {
             if (string.IsNullOrWhiteSpace(vFilePath) || !File.Exists(vFilePath)) return;
             var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
-            using (var wSr = new StreamReader(vFilePath))
+            try
             {
-                FItems = (List<TodoItem>)wSerializer.Deserialize(wSr);
-                FFilePath = vFilePath;
+                using (var wStreamReader = new StreamReader(vFilePath))
+                {
+                    FItems = (List<TodoItem>)wSerializer.Deserialize(wStreamReader);
+                    FFilePath = vFilePath;
+                }
+            }
+            catch (Exception wEx)
+            {
+                MessageBox.Show($"読込中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
