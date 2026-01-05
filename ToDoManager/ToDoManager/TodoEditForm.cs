@@ -10,14 +10,14 @@ namespace ToDoManager
     /// </summary>
     public partial class TodoEditForm : Form
     {
-
-        #region プロパティ
+        #region フィールド・プロパティ
         /// <summary>
         /// 編集対象のToDoアイテムを取得
         /// </summary>
         public TodoItem Item { get; private set; }
         #endregion
 
+        #region 初期化
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -31,26 +31,41 @@ namespace ToDoManager
             FDtpDueDate.Value = vItem.DueDate == default(DateTime) ? DateTime.Now : vItem.DueDate;
             FChkDone.Checked = vItem.IsCompleted;
         }
+        #endregion
 
-        #region privateメソッド
+        #region イベントハンドラ
         /// <summary>
         /// 保存ボタンがクリックされたときの処理
         /// </summary>
-        /// <param name="sender">イベントの送信元</param>
-        /// <param name="e">イベントデータ</param>
         private void FBtnSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(FTxtTitle.Text))
-            {
-                MessageBox.Show("タイトルを入力して下さい。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return; 
+            SaveItem();
+        }
+        #endregion
+
+        #region privateメソッド
+        /// <summary>
+        /// 入力内容をItemに反映しバリデーションする
+        /// </summary>
+        private void SaveItem()
+        {
+            try {
+                Item.Title = FTxtTitle.Text;
+                Item.Content = FTxtContent.Text;
+                Item.DueDate = FDtpDueDate.Value;
+                Item.IsCompleted = FChkDone.Checked;
+
+                // バリデーションチェック
+                Item.Validate();
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
-            Item.Title = FTxtTitle.Text;
-            Item.Content = FTxtContent.Text;
-            Item.DueDate = FDtpDueDate.Value;
-            Item.IsCompleted = FChkDone.Checked;
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
         #endregion
     }

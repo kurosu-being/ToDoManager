@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
+using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using ToDoManager.Models;
 
 namespace ToDoManager.Services
@@ -63,12 +64,9 @@ namespace ToDoManager.Services
         /// <returns>成功時true/失敗時false</returns>
         public void AddOrUpdate(TodoItem vItem)
         {
-            // 責務分離: 引数チェック
             if (vItem == null) throw new ArgumentNullException(nameof(vItem));
-            if (string.IsNullOrWhiteSpace(vItem.Title))
-            {
-                MessageBox.Show("タイトルを入力して下さい。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //バリデーションチェック
+            vItem.Validate();
 
             var vExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
             if (vExisting != null)
@@ -112,7 +110,6 @@ namespace ToDoManager.Services
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         FFilePath = saveFileDialog.FileName;
-                        MessageBox.Show("保存しました。");
                     }
                     else
                     {
@@ -121,10 +118,19 @@ namespace ToDoManager.Services
                     }
                 }
             }
-            using (var vSw = new StreamWriter(FFilePath))
+            try
             {
-                vSerializer.Serialize(vSw, FItems);
-                MessageBox.Show("保存しました。");
+                var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
+                using (var wSw = new StreamWriter(FFilePath))
+                {
+                    vSerializer.Serialize(wSw, FItems);
+                }
+
+                MessageBox.Show("保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"保存中にエラーが発生しました：{ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -148,7 +154,6 @@ namespace ToDoManager.Services
         /// </summary>
         public void Dispose()
         {
-            // 終了時の処理など
         }
         #endregion
     }

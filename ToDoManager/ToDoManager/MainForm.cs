@@ -11,28 +11,22 @@ namespace ToDoManager
     /// </summary>
     public partial class MainForm : Form
     {
-        #region フィールド
-        /// <summary>
-        /// ToDoサービスのインスタンス
-        /// </summary>
+        #region フィールド・初期化
         private readonly TodoService FService = new TodoService();
-        #endregion
+        private const string FXmlFileFilter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
         public MainForm()
         {
             InitializeComponent();
             UpdateList();
             SetFieldsReadOnly(true);
         }
+        #endregion
 
-        #region privateメソッド
+        #region UI操作
         /// <summary>
-        /// 右側の入力フィールドの編集可否を設定
+        /// 入力フィールドの編集可否を設定
         /// </summary>
-        /// <param name="vIsReadOnly">読み取り専用にする場合はtrue</param>
         private void SetFieldsReadOnly(bool vIsReadOnly)
         {
             FTxtTitle.ReadOnly = vIsReadOnly;
@@ -44,7 +38,6 @@ namespace ToDoManager
         /// <summary>
         /// ToDoリストを更新
         /// </summary>
-        /// <param name="vFilter">タイトルのフィルタ文字列</param>
         private void UpdateList(string vFilter = null)
         {
             FLstItems.Items.Clear();
@@ -55,25 +48,59 @@ namespace ToDoManager
         }
 
         /// <summary>
-        /// 追加ボタンのクリックイベント。
+        /// 詳細フィールドを選択アイテムで更新
         /// </summary>
-        private void FBtnAdd_Click(object sender, EventArgs e)
+        private void UpdateDetailFields()
+        {
+            SetFieldsReadOnly(true);
+            if (FLstItems.SelectedItem is TodoItem vSelected)
+            {
+                FTxtTitle.Text = vSelected.Title;
+                FTxtContent.Text = vSelected.Content;
+                FDtpDueDate.Value = vSelected.DueDate;
+                FChkDone.Checked = vSelected.IsCompleted;
+            }
+            else
+            {
+                FTxtTitle.Text = string.Empty;
+                FTxtContent.Text = string.Empty;
+                FDtpDueDate.Value = DateTime.Now;
+                FChkDone.Checked = false;
+            }
+        }
+        #endregion
+
+        #region ToDo操作
+        /// <summary>
+        /// 追加アイテムを処理
+        /// </summary>
+        private void AddItem()
         {
             using (var wForm = new TodoEditForm(new TodoItem()))
             {
                 if (wForm.ShowDialog() == DialogResult.OK)
                 {
-                    FService.AddOrUpdate(wForm.Item);
-                    UpdateList();
-
+                    try
+                    {
+                        FService.AddOrUpdate(wForm.Item);
+                        UpdateList();
+                    }
+                    catch (ArgumentException wEx)
+                    {
+                        MessageBox.Show(wEx.Message, "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
+                    catch (Exception wEx)
+                    {
+                        MessageBox.Show($"保存に失敗しました：{wEx.Message}", "システムエラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// 編集ボタンのクリックイベント。
+        /// アイテムを編集
         /// </summary>
-        private void FBtnEdit_Click(object sender, EventArgs e)
+        private void EditItem()
         {
             if (FLstItems.SelectedItem is TodoItem wSelected)
             {
@@ -89,9 +116,9 @@ namespace ToDoManager
         }
 
         /// <summary>
-        /// 削除ボタンのクリックイベント。
+        /// アイテムを削除
         /// </summary>
-        private void FBtnDelete_Click(object sender, EventArgs e)
+        private void DeleteItem()
         {
             if (FLstItems.SelectedItem is TodoItem wSelected)
             {
@@ -101,9 +128,9 @@ namespace ToDoManager
         }
 
         /// <summary>
-        /// 期限順ボタンのクリックイベント。
+        /// アイテムを期限順にソート
         /// </summary>
-        private void FBtnSort_Click(object sender, EventArgs e)
+        private void SortItems()
         {
             var wSorted = FService.GetSortedItems();
             FLstItems.Items.Clear();
@@ -111,53 +138,40 @@ namespace ToDoManager
         }
 
         /// <summary>
-        /// 保存ボタンのクリックイベント。
+        /// XMLに保存
         /// </summary>
-        private void FBtnXml_Click(object sender, EventArgs e)
+        private void SaveToXml()
         {
             FService.ExportXml();
         }
 
         /// <summary>
-        /// 読込ボタンのクリックイベント。
+        /// XMLから読み込み
         /// </summary>
-        private void FBtnXmlLoad_Click(object sender, EventArgs e)
+        private void LoadFromXml()
         {
             using (var wDialog = new OpenFileDialog())
             {
-                wDialog.Filter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
+                wDialog.Filter = FXmlFileFilter;
                 wDialog.Title = "ファイルを選択";
                 if (wDialog.ShowDialog() == DialogResult.OK)
                 {
                     FService.LoadXml(wDialog.FileName);
                     UpdateList();
-                    MessageBox.Show("ファイルを読み込みました。");
+                    MessageBox.Show("ファイルを読み込みました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
+        #endregion
 
-        /// <summary>
-        /// リストボックスの選択変更イベント。
-        /// </summary>
-        private void FLstItems_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            SetFieldsReadOnly(true);
-            if (FLstItems.SelectedItem is TodoItem vSelected)
-            {
-                FTxtTitle.Text = vSelected.Title;
-                FTxtContent.Text = vSelected.Content;
-                FDtpDueDate.Value = vSelected.DueDate;
-                FChkDone.Checked = vSelected.IsCompleted;
-                 
-            }
-            else
-            {
-                FTxtTitle.Text = string.Empty;
-                FTxtContent.Text = string.Empty;
-                FDtpDueDate.Value = DateTime.Now;
-                FChkDone.Checked = false;
-            }
-        }
+        #region イベントハンドラ
+        private void FBtnAdd_Click(object sender, EventArgs e) => AddItem();
+        private void FBtnEdit_Click(object sender, EventArgs e) => EditItem();
+        private void FBtnDelete_Click(object sender, EventArgs e) => DeleteItem();
+        private void FBtnSort_Click(object sender, EventArgs e) => SortItems();
+        private void FBtnXml_Click(object sender, EventArgs e) => SaveToXml();
+        private void FBtnXmlLoad_Click(object sender, EventArgs e) => LoadFromXml();
+        private void FLstItems_SelectedIndexChanged(object sender, EventArgs e) => UpdateDetailFields();
         #endregion
     }
 }

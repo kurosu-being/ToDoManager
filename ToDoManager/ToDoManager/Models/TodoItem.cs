@@ -76,5 +76,17 @@ namespace ToDoManager.Models
         {
             return $"[{(IsCompleted ? "完了" : "未")}] {Title}";
         }
+
+        /// <summary>
+        /// このアイテムが有効な状態か診断します。
+        /// 不正な場合は例外を投げます。
+        /// </summary>
+        public void Validate()
+        {
+            if (string.IsNullOrWhiteSpace(this.Title))
+            {
+                throw new ArgumentException("タイトルは必須入力です。");
+            }
+        }
     }
 }
