@@ -85,5 +85,43 @@ namespace ToDoManagerTests
             Assert.IsTrue(wMap.ContainsKey(wItem.Id));
             Assert.AreEqual(wItem.Title, wMap[wItem.Id].Title);
         }
+
+        /// <summary>
+        /// AddOrUpdateでバリデーションエラー（タイトル未入力時）が発生すること
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddOrUpdate_ThrowsException_WhenTitleIsEmpty()
+        {
+            var wService = new TodoService();
+            var wItem = new TodoItem { Title = "", Content = "TestContent", DueDate = DateTime.Today, IsCompleted = false };
+            wService.AddOrUpdate(wItem);
+        }
+
+        /// <summary>
+        /// AddOrUpdateでバリデーションエラー（タイトルが空白のみ）が発生すること
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void AddOrUpdate_ThrowsException_WhenTitleIsWhitespace()
+        {
+            var wService = new TodoService();
+            var wItem = new TodoItem { Title = "   ", Content = "TestContent", DueDate = DateTime.Today, IsCompleted = false };
+            wService.AddOrUpdate(wItem);
+        }
+
+        /// <summary>
+        /// AddOrUpdateでタイトルが1文字の境界値でも正常に追加できること
+        /// </summary>
+        [TestMethod]
+        public void AddOrUpdate_AddsItem_WhenTitleIsSingleChar()
+        {
+            var wService = new TodoService();
+            var wItem = new TodoItem { Title = "A", Content = "TestContent", DueDate = DateTime.Today, IsCompleted = false };
+            wService.AddOrUpdate(wItem);
+            var wItems = wService.GetItems().ToList();
+            Assert.AreEqual(1, wItems.Count);
+            Assert.AreEqual("A", wItems[0].Title);
+        }
     }
 }
