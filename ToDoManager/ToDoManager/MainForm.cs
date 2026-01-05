@@ -18,6 +18,8 @@ namespace ToDoManager
         public MainForm()
         {
             InitializeComponent();
+            FBtnSearch.Click += FBtnSearch_Click;
+            FTxtSearch.KeyDown += FTxtSearch_KeyDown;
             UpdateList();
             SetFieldsReadOnly(true);
         }
@@ -33,6 +35,7 @@ namespace ToDoManager
             FTxtContent.ReadOnly = vIsReadOnly;
             FDtpDueDate.Enabled = !vIsReadOnly;
             FChkDone.Enabled = !vIsReadOnly;
+            FMainCmbPriority.Enabled = !vIsReadOnly;
         }
 
         /// <summary>
@@ -45,6 +48,17 @@ namespace ToDoManager
             {
                 FLstItems.Items.Add(wItem);
             }
+            UpdateStatusBar();
+        }
+
+        /// <summary>
+        /// ステータスバーを更新
+        /// </summary>
+        private void UpdateStatusBar()
+        {
+            var wAllCount = FService.GetItems().Count();
+            var wIncompleteCount = FService.GetItems().Count(x => !x.IsCompleted);
+            FStatusLabel.Text = $"全件数: {wAllCount} / 未完了: {wIncompleteCount}";
         }
 
         /// <summary>
@@ -59,6 +73,9 @@ namespace ToDoManager
                 FTxtContent.Text = vSelected.Content;
                 FDtpDueDate.Value = vSelected.DueDate;
                 FChkDone.Checked = vSelected.IsCompleted;
+                FMainCmbPriority.SelectedIndex = vSelected.Priority == PriorityLevel.High ? 0 : vSelected.Priority == PriorityLevel.Normal ? 1 : 2;
+                // REQ-02: 期限切れ警告
+                FTxtTitle.BackColor = (!vSelected.IsCompleted && FDtpDueDate.Value < DateTime.Today) ? System.Drawing.Color.Yellow : System.Drawing.SystemColors.Control;
             }
             else
             {
@@ -66,6 +83,8 @@ namespace ToDoManager
                 FTxtContent.Text = string.Empty;
                 FDtpDueDate.Value = DateTime.Now;
                 FChkDone.Checked = false;
+                FMainCmbPriority.SelectedIndex = 1; 
+                FTxtTitle.BackColor = System.Drawing.SystemColors.Control;
             }
         }
         #endregion
@@ -87,11 +106,11 @@ namespace ToDoManager
                     }
                     catch (ArgumentException wEx)
                     {
-                        MessageBox.Show(wEx.Message, "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(this, wEx.Message, "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                     catch (Exception wEx)
                     {
-                        MessageBox.Show($"保存に失敗しました：{wEx.Message}", "システムエラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(this, $"保存に失敗しました：{wEx.Message}", "システムエラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -158,7 +177,7 @@ namespace ToDoManager
                 {
                     FService.LoadXml(wDialog.FileName);
                     UpdateList();
-                    MessageBox.Show("ファイルを読み込みました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(this, "ファイルを読み込みました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -172,6 +191,20 @@ namespace ToDoManager
         private void FBtnXml_Click(object sender, EventArgs e) => SaveToXml();
         private void FBtnXmlLoad_Click(object sender, EventArgs e) => LoadFromXml();
         private void FLstItems_SelectedIndexChanged(object sender, EventArgs e) => UpdateDetailFields();
+        private void FBtnSearch_Click(object sender, EventArgs e)
+        {
+            UpdateList(FTxtSearch.Text);
+        }
+
+        private void FTxtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                UpdateList(FTxtSearch.Text);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
         #endregion
     }
 }

@@ -38,12 +38,12 @@ namespace ToDoManager.Services
         /// <summary>
         /// フィルタ条件に一致するToDoアイテムの列挙を返す
         /// </summary>
-        /// <param name="vFilter">タイトルに含まれる文字列（nullまたは空で全件）</param>
+        /// <param name="vFilter">タイトルまたは内容に含まれる文字列（nullまたは空で全件）</param>
         /// <returns>条件に一致するToDoアイテムの列挙</returns>
         public IEnumerable<TodoItem> GetItems(string vFilter = null)
         {
-            // yield return を使った遅延実行
-            var wQuery = FItems.Where(x => string.IsNullOrEmpty(vFilter) || x.Title.Contains(vFilter));
+            // タイトルまたは内容にフィルタ文字列が含まれる場合のみ返す
+            var wQuery = FItems.Where(x => string.IsNullOrEmpty(vFilter) || x.Title.Contains(vFilter) || x.Content.Contains(vFilter));
             foreach (var wItem in wQuery) yield return wItem;
         }
 
@@ -124,11 +124,11 @@ namespace ToDoManager.Services
                 {
                     wSerializer.Serialize(wStreamWriter, FItems);
                 }
-                MessageBox.Show("保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Application.OpenForms.Count > 0 ? Application.OpenForms[0] : null, "保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception wEx)
             {
-                MessageBox.Show($"保存中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Application.OpenForms.Count > 0 ? Application.OpenForms[0] : null, $"保存中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -150,7 +150,7 @@ namespace ToDoManager.Services
             }
             catch (Exception wEx)
             {
-                MessageBox.Show($"読込中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Application.OpenForms.Count > 0 ? Application.OpenForms[0] : null, $"読込中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

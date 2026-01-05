@@ -30,6 +30,8 @@ namespace ToDoManager
             FTxtContent.Text = vItem.Content;
             FDtpDueDate.Value = vItem.DueDate == default(DateTime) ? DateTime.Now : vItem.DueDate;
             FChkDone.Checked = vItem.IsCompleted;
+            // 優先度初期化
+            FCmbPriority.SelectedIndex = vItem.Priority == PriorityLevel.High ? 0 : vItem.Priority == PriorityLevel.Normal ? 1 : 2;
         }
         #endregion
 
@@ -54,6 +56,8 @@ namespace ToDoManager
                 Item.Content = FTxtContent.Text;
                 Item.DueDate = FDtpDueDate.Value;
                 Item.IsCompleted = FChkDone.Checked;
+                // 優先度保存
+                Item.Priority = FCmbPriority.SelectedIndex == 0 ? PriorityLevel.High : FCmbPriority.SelectedIndex == 1 ? PriorityLevel.Normal : PriorityLevel.Low;
 
                 // バリデーションチェック
                 Item.Validate();
@@ -63,7 +67,7 @@ namespace ToDoManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, ex.Message, "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
         }
