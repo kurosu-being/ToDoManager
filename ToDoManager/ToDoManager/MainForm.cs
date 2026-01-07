@@ -14,6 +14,7 @@ namespace ToDoManager
         #region フィールド・初期化
         private readonly TodoService FService = new TodoService();
         private const string FFileFilter = "XMLファイル (*.xml)|*.xml|JSONファイル (*.json)|*.json|すべてのファイル (*.*)|*.*";
+        private const string DefaultFileName = "TodoItems.xml";
         private string FCurrentFilePath = null;
 
         public MainForm()
@@ -184,7 +185,7 @@ namespace ToDoManager
                     wDialog.Filter = FFileFilter;
                     wDialog.Title = "名前を付けて保存";
                     // デフォルトはＸＭＬファイル
-                    wDialog.FileName = "TodoItems.xml";
+                    wDialog.FileName = DefaultFileName;
                     wDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     if (wDialog.ShowDialog() == DialogResult.OK)
                     {

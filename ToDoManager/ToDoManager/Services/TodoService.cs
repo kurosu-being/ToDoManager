@@ -14,6 +14,7 @@ namespace ToDoManager.Services
     {
         #region フィールド
         private List<TodoItem> FItems = new List<TodoItem>();
+        private string FFilePath;
         private ITodoItemSerializer FXmlSerializer = new XmlTodoItemSerializer();
         private ITodoItemSerializer FJsonSerializer = new JsonTodoItemSerializer();
         #endregion
