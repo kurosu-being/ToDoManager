@@ -15,24 +15,12 @@ namespace ToDoManager.Models
         public int Id { get; set; }
     }
 
-    // インターフェース (OOP: インターフェース)
-    /// <summary>
-    /// 保存可能なエンティティのインターフェース
-    /// </summary>
-    public interface ISavable
-    {
-        /// <summary>
-        /// サマリーを取得
-        /// </summary>
-        /// <returns>サマリー文字列</returns>
-        string GetSummary();
-    }
 
     /// <summary>
     /// ToDoアイテムのエンティティクラス
     /// </summary>
     [Serializable]
-    public class TodoItem : EntityBase, ISavable
+    public class TodoItem : EntityBase
     {
         /// <summary>
         /// タイトル
@@ -58,7 +46,7 @@ namespace ToDoManager.Models
         [XmlElement("IsCompleted")]
         public bool IsCompleted { get; set; }
 
-        private PriorityLevel _priority = PriorityLevel.Normal;
+        private PriorityLevel FPriority = PriorityLevel.Normal;
 
         /// <summary>
         /// 優先度
@@ -66,18 +54,8 @@ namespace ToDoManager.Models
         [XmlElement("Priority")]
         public PriorityLevel Priority
         {
-            get { return _priority; }
-            set { _priority = value; }
-        }
-
-        // インターフェースの明示的な実装
-        /// <summary>
-        /// サマリー文字列を取得
-        /// </summary>
-        /// <returns>サマリー文字列</returns>
-        string ISavable.GetSummary()
-        {
-            return $"{Title} (期限: {DueDate:yyyy/MM/dd})";
+            get { return FPriority; }
+            set { FPriority = value; }
         }
 
         /// <summary>
