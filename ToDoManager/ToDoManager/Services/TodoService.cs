@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 using ToDoManager.Models;
 
 namespace ToDoManager.Services
@@ -18,6 +16,8 @@ namespace ToDoManager.Services
         private List<TodoItem> FItems = new List<TodoItem>();
         private string FFilePath;
         private const string DefaultFileName = "TodoItems.xml";
+        private ITodoItemSerializer FXmlSerializer = new XmlTodoItemSerializer();
+        private ITodoItemSerializer FJsonSerializer = new JsonTodoItemSerializer();
         #endregion
 
         /// <summary>
@@ -93,65 +93,35 @@ namespace ToDoManager.Services
             if (vItem != null) FItems.Remove(vItem);
         }
 
+
         /// <summary>
-        /// ToDoアイテムをXMLファイルに保存
+        /// 拡張子に応じたシリアライザを取得
         /// </summary>
-        public void ExportXml()
+        private ITodoItemSerializer GetSerializerByExtension(string vFilePath)
         {
-            var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
-            if (string.IsNullOrWhiteSpace(FFilePath))
-            {
-                using (var wSaveFileDialog = new SaveFileDialog())
-                {
-                    wSaveFileDialog.Title = "名前を付けて保存";
-                    wSaveFileDialog.Filter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
-                    wSaveFileDialog.FileName = DefaultFileName;
-                    wSaveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    if (wSaveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        FFilePath = wSaveFileDialog.FileName;
-                    }
-                    else
-                    {
-                        // ユーザーがキャンセルした場合は保存処理を中断
-                        return;
-                    }
-                }
-            }
-            try
-            {
-                using (var wStreamWriter = new StreamWriter(FFilePath))
-                {
-                    wSerializer.Serialize(wStreamWriter, FItems);
-                }
-                MessageBox.Show(Application.OpenForms.Count > 0 ? Application.OpenForms[0] : null, "保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception wEx)
-            {
-                MessageBox.Show(Application.OpenForms.Count > 0 ? Application.OpenForms[0] : null, $"保存中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            var wExtension = Path.GetExtension(vFilePath)?.ToLower();
+            if (wExtension == ".json") return FJsonSerializer;
+            return FXmlSerializer;
         }
 
         /// <summary>
-        /// 指定したXMLファイルからToDoアイテムを読み込み
+        /// ファイルパスに応じてXML/JSONで保存
         /// </summary>
-        /// <param name="vFilePath">読み込むXMLファイルのパス</param>
-        public void LoadXml(string vFilePath)
+        public void Export(string vFilePath)
         {
-            if (string.IsNullOrWhiteSpace(vFilePath) || !File.Exists(vFilePath)) return;
-            var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
-            try
-            {
-                using (var wStreamReader = new StreamReader(vFilePath))
-                {
-                    FItems = (List<TodoItem>)wSerializer.Deserialize(wStreamReader);
-                    FFilePath = vFilePath;
-                }
-            }
-            catch (Exception wEx)
-            {
-                MessageBox.Show(Application.OpenForms.Count > 0 ? Application.OpenForms[0] : null, $"読込中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            var wSerializer = GetSerializerByExtension(vFilePath);
+            wSerializer.Save(vFilePath, FItems);
+            FFilePath = vFilePath;
+        }
+
+        /// <summary>
+        /// ファイルパスに応じてXML/JSONで読込
+        /// </summary>
+        public void Import(string vFilePath)
+        {
+            var wSerializer = GetSerializerByExtension(vFilePath);
+            FItems = wSerializer.Load(vFilePath);
+            FFilePath = vFilePath;
         }
 
         /// <summary>

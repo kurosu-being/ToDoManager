@@ -14,6 +14,7 @@ namespace ToDoManager
         #region フィールド・初期化
         private readonly TodoService FService = new TodoService();
         private const string FXmlFileFilter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
+        private const string FFileFilter = "XMLファイル (*.xml)|*.xml|JSONファイル (*.json)|*.json|すべてのファイル (*.*)|*.*";
 
         public MainForm()
         {
@@ -157,27 +158,52 @@ namespace ToDoManager
         }
 
         /// <summary>
-        /// XMLに保存
+        /// ファイルに保存（拡張子でXML/JSON自動判別）
         /// </summary>
-        private void SaveToXml()
+        private void SaveToFile()
         {
-            FService.ExportXml();
+            using (var wDialog = new SaveFileDialog())
+            {
+                wDialog.Filter = FFileFilter;
+                wDialog.Title = "名前を付けて保存";
+                wDialog.FileName = "TodoItems.xml";
+                wDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (wDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        FService.Export(wDialog.FileName);
+                        MessageBox.Show(this, "保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception wEx)
+                    {
+                        MessageBox.Show(this, $"保存中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
 
         /// <summary>
-        /// XMLから読み込み
+        /// ファイルから読込（拡張子でXML/JSON自動判別）
         /// </summary>
-        private void LoadFromXml()
+        private void LoadFromFile()
         {
             using (var wDialog = new OpenFileDialog())
             {
-                wDialog.Filter = FXmlFileFilter;
+                wDialog.Filter = FFileFilter;
                 wDialog.Title = "ファイルを選択";
                 if (wDialog.ShowDialog() == DialogResult.OK)
                 {
-                    FService.LoadXml(wDialog.FileName);
-                    UpdateList();
-                    MessageBox.Show(this, "ファイルを読み込みました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    try
+                    {
+                        FService.Import(wDialog.FileName);
+                        UpdateList();
+                        MessageBox.Show(this, "ファイルを読み込みました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (Exception wEx)
+                    {
+                        MessageBox.Show(this, $"読込中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -188,8 +214,8 @@ namespace ToDoManager
         private void FBtnEdit_Click(object sender, EventArgs e) => EditItem();
         private void FBtnDelete_Click(object sender, EventArgs e) => DeleteItem();
         private void FBtnSort_Click(object sender, EventArgs e) => SortItems();
-        private void FBtnXml_Click(object sender, EventArgs e) => SaveToXml();
-        private void FBtnXmlLoad_Click(object sender, EventArgs e) => LoadFromXml();
+        private void FBtnXml_Click(object sender, EventArgs e) => SaveToFile();
+        private void FBtnXmlLoad_Click(object sender, EventArgs e) => LoadFromFile();
         private void FLstItems_SelectedIndexChanged(object sender, EventArgs e) => UpdateDetailFields();
         private void FBtnSearch_Click(object sender, EventArgs e)
         {
