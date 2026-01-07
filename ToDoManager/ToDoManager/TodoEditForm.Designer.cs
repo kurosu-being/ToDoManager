@@ -52,50 +52,45 @@
             // 
             this.FTxtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FTxtTitle.Location = new System.Drawing.Point(33, 48);
-            this.FTxtTitle.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.FTxtTitle.Location = new System.Drawing.Point(20, 32);
             this.FTxtTitle.Name = "FTxtTitle";
-            this.FTxtTitle.Size = new System.Drawing.Size(352, 25);
+            this.FTxtTitle.Size = new System.Drawing.Size(213, 19);
             this.FTxtTitle.TabIndex = 0;
             // 
             // FTxtContent
             // 
             this.FTxtContent.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FTxtContent.Location = new System.Drawing.Point(33, 111);
-            this.FTxtContent.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.FTxtContent.Location = new System.Drawing.Point(20, 74);
             this.FTxtContent.Multiline = true;
             this.FTxtContent.Name = "FTxtContent";
-            this.FTxtContent.Size = new System.Drawing.Size(352, 88);
+            this.FTxtContent.Size = new System.Drawing.Size(213, 60);
             this.FTxtContent.TabIndex = 1;
             // 
             // FDtpDueDate
             // 
             this.FDtpDueDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.FDtpDueDate.Location = new System.Drawing.Point(33, 216);
-            this.FDtpDueDate.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.FDtpDueDate.Location = new System.Drawing.Point(20, 144);
             this.FDtpDueDate.Name = "FDtpDueDate";
-            this.FDtpDueDate.Size = new System.Drawing.Size(352, 25);
+            this.FDtpDueDate.Size = new System.Drawing.Size(213, 19);
             this.FDtpDueDate.TabIndex = 2;
             // 
             // FChkDone
             // 
-            this.FChkDone.Location = new System.Drawing.Point(33, 249);
-            this.FChkDone.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.FChkDone.Location = new System.Drawing.Point(20, 166);
             this.FChkDone.Name = "FChkDone";
-            this.FChkDone.Size = new System.Drawing.Size(133, 28);
+            this.FChkDone.Size = new System.Drawing.Size(80, 19);
             this.FChkDone.TabIndex = 3;
             this.FChkDone.Text = "完了(&F)";
             // 
             // FBtnSave
             // 
             this.FBtnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.FBtnSave.Location = new System.Drawing.Point(33, 380);
-            this.FBtnSave.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.FBtnSave.Location = new System.Drawing.Point(20, 253);
             this.FBtnSave.Name = "FBtnSave";
-            this.FBtnSave.Size = new System.Drawing.Size(133, 45);
-            this.FBtnSave.TabIndex = 4;
+            this.FBtnSave.Size = new System.Drawing.Size(80, 30);
+            this.FBtnSave.TabIndex = 5;
             this.FBtnSave.Text = "保存(&S)";
             this.FBtnSave.UseVisualStyleBackColor = true;
             this.FBtnSave.Click += new System.EventHandler(this.FBtnSave_Click);
@@ -108,47 +103,43 @@
             "高",
             "中",
             "低"});
-            this.FCmbPriority.Location = new System.Drawing.Point(33, 313);
-            this.FCmbPriority.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.FCmbPriority.Location = new System.Drawing.Point(20, 209);
             this.FCmbPriority.Name = "FCmbPriority";
-            this.FCmbPriority.Size = new System.Drawing.Size(352, 26);
-            this.FCmbPriority.TabIndex = 5;
+            this.FCmbPriority.Size = new System.Drawing.Size(213, 20);
+            this.FCmbPriority.TabIndex = 4;
             // 
             // FPriorityLabel
             // 
             this.FPriorityLabel.AutoSize = true;
-            this.FPriorityLabel.Location = new System.Drawing.Point(30, 291);
-            this.FPriorityLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.FPriorityLabel.Location = new System.Drawing.Point(18, 194);
             this.FPriorityLabel.Name = "FPriorityLabel";
-            this.FPriorityLabel.Size = new System.Drawing.Size(62, 18);
+            this.FPriorityLabel.Size = new System.Drawing.Size(41, 12);
             this.FPriorityLabel.TabIndex = 7;
             this.FPriorityLabel.Text = "優先度";
             // 
             // FEditTitleLabel
             // 
             this.FEditTitleLabel.AutoSize = true;
-            this.FEditTitleLabel.Location = new System.Drawing.Point(33, 21);
-            this.FEditTitleLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.FEditTitleLabel.Location = new System.Drawing.Point(20, 14);
             this.FEditTitleLabel.Name = "FEditTitleLabel";
-            this.FEditTitleLabel.Size = new System.Drawing.Size(61, 18);
+            this.FEditTitleLabel.Size = new System.Drawing.Size(40, 12);
             this.FEditTitleLabel.TabIndex = 5;
             this.FEditTitleLabel.Text = "タイトル";
             // 
             // FEditContentLabel
             // 
             this.FEditContentLabel.AutoSize = true;
-            this.FEditContentLabel.Location = new System.Drawing.Point(33, 88);
-            this.FEditContentLabel.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.FEditContentLabel.Location = new System.Drawing.Point(20, 59);
             this.FEditContentLabel.Name = "FEditContentLabel";
-            this.FEditContentLabel.Size = new System.Drawing.Size(44, 18);
+            this.FEditContentLabel.Size = new System.Drawing.Size(29, 12);
             this.FEditContentLabel.TabIndex = 6;
             this.FEditContentLabel.Text = "内容";
             // 
             // TodoEditForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(454, 451);
+            this.ClientSize = new System.Drawing.Size(272, 301);
             this.Controls.Add(this.FCmbPriority);
             this.Controls.Add(this.FPriorityLabel);
             this.Controls.Add(this.FEditContentLabel);
@@ -158,8 +149,7 @@
             this.Controls.Add(this.FDtpDueDate);
             this.Controls.Add(this.FChkDone);
             this.Controls.Add(this.FBtnSave);
-            this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            this.MinimumSize = new System.Drawing.Size(440, 460);
+            this.MinimumSize = new System.Drawing.Size(270, 320);
             this.Name = "TodoEditForm";
             this.Text = "ToDo編集";
             this.ResumeLayout(false);

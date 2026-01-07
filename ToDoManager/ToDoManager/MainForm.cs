@@ -21,8 +21,9 @@ namespace ToDoManager
         {
             InitializeComponent();
 
-            FBtnSearch.Click += FBtnSearch_Click;
-            FTxtSearch.KeyDown += FTxtSearch_KeyDown;
+            // ToolStrip検索イベントに置き換え
+            FToolStripBtnSearch.Click += FToolStripBtnSearch_Click;
+            FToolStripTxtSearch.KeyDown += FToolStripTxtSearch_KeyDown;
             UpdateList();
             SetFieldsReadOnly(true);
         }
@@ -239,16 +240,17 @@ namespace ToDoManager
         private void FBtnXml_Click(object sender, EventArgs e) => SaveToFile();
         private void FBtnXmlLoad_Click(object sender, EventArgs e) => LoadFromFile();
         private void FLstItems_SelectedIndexChanged(object sender, EventArgs e) => UpdateDetailFields();
-        private void FBtnSearch_Click(object sender, EventArgs e)
+
+        private void FToolStripBtnSearch_Click(object sender, EventArgs e)
         {
-            UpdateList(FTxtSearch.Text);
+            UpdateList(FToolStripTxtSearch.Text);
         }
 
-        private void FTxtSearch_KeyDown(object sender, KeyEventArgs e)
+        private void FToolStripTxtSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                UpdateList(FTxtSearch.Text);
+                UpdateList(FToolStripTxtSearch.Text);
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
