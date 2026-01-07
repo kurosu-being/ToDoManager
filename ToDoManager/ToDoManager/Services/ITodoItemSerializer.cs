@@ -17,7 +17,7 @@ namespace ToDoManager.Services
         /// <summary>
         /// 指定ファイルからTodoItemリストを読み込みます。
         /// </summary>
-        /// <param name="vFilePzath">読み込むファイルパス</param>
+        /// <param name="vFilePath">読み込むファイルパス</param>
         /// <returns>読み込んだTodoItemリスト</returns>
         List<ToDoManager.Models.TodoItem> Load(string vFilePath);
     }
