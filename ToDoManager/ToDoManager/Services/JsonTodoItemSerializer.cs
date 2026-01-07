@@ -16,9 +16,9 @@ namespace ToDoManager.Services
             File.WriteAllText(vFilePath, wJson);
         }
 
-        public List<TodoItem> Load(string wFilePath)
+        public List<TodoItem> Load(string vFilePath)
         {
-            var wJson = File.ReadAllText(wFilePath);
+            var wJson = File.ReadAllText(vFilePath);
             return JsonConvert.DeserializeObject<List<TodoItem>>(wJson);
         }
     }

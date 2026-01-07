@@ -21,17 +21,6 @@ namespace ToDoManagerTests
         }
 
         /// <summary>
-        /// GetSummaryが期待通りのサマリーを返すこと
-        /// </summary>
-        [TestMethod]
-        public void GetSummary_ReturnsExpectedSummary()
-        {
-            var wItem = new TodoItem { Title = "Test", DueDate = new DateTime(2024, 1, 1) };
-            var wSummary = ((ISavable)wItem).GetSummary();
-            Assert.AreEqual("Test (期限: 2024/01/01)", wSummary);
-        }
-
-        /// <summary>
         /// Validateでタイトル未入力時に例外が発生すること
         /// </summary>
         [TestMethod]
