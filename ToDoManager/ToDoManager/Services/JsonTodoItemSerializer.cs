@@ -12,13 +12,13 @@ namespace ToDoManager.Services
     {
         public void Save(string vFilePath, List<TodoItem> vItems)
         {
-            var vJson = JsonConvert.SerializeObject(vItems, Formatting.Indented);
-            File.WriteAllText(vFilePath, vJson);
+            var wJson = JsonConvert.SerializeObject(vItems, Formatting.Indented);
+            File.WriteAllText(vFilePath, wJson);
         }
 
-        public List<TodoItem> Load(string filePath)
+        public List<TodoItem> Load(string wFilePath)
         {
-            var wJson = File.ReadAllText(filePath);
+            var wJson = File.ReadAllText(wFilePath);
             return JsonConvert.DeserializeObject<List<TodoItem>>(wJson);
         }
     }

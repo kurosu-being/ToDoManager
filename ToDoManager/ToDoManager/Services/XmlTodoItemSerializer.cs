@@ -21,8 +21,7 @@ namespace ToDoManager.Services
 
         public List<TodoItem> Load(string vFilePath)
         {
-            var wSerializer
-                = new XmlSerializer(typeof(List<TodoItem>));
+            var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
             using (var wReader = new StreamReader(vFilePath))
             {
                 return (List<TodoItem>)wSerializer.Deserialize(wReader);
