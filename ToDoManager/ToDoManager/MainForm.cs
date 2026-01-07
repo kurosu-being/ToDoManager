@@ -13,12 +13,13 @@ namespace ToDoManager
     {
         #region フィールド・初期化
         private readonly TodoService FService = new TodoService();
-        private const string FXmlFileFilter = "XMLファイル (*.xml)|*.xml|すべてのファイル (*.*)|*.*";
         private const string FFileFilter = "XMLファイル (*.xml)|*.xml|JSONファイル (*.json)|*.json|すべてのファイル (*.*)|*.*";
+        private string FCurrentFilePath = null;
 
         public MainForm()
         {
             InitializeComponent();
+
             FBtnSearch.Click += FBtnSearch_Click;
             FTxtSearch.KeyDown += FTxtSearch_KeyDown;
             UpdateList();
@@ -162,22 +163,41 @@ namespace ToDoManager
         /// </summary>
         private void SaveToFile()
         {
-            using (var wDialog = new SaveFileDialog())
+            if (!string.IsNullOrEmpty(FCurrentFilePath))
             {
-                wDialog.Filter = FFileFilter;
-                wDialog.Title = "名前を付けて保存";
-                wDialog.FileName = "TodoItems.xml";
-                wDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                if (wDialog.ShowDialog() == DialogResult.OK)
+                // 既存ファイルがあれば上書き保存
+                try
                 {
-                    try
+                    FService.Export(FCurrentFilePath);
+                    MessageBox.Show(this, "上書き保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception wEx)
+                {
+                    MessageBox.Show(this, $"上書き保存中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                // 無ければ新規保存
+                using (var wDialog = new SaveFileDialog())
+                {
+                    wDialog.Filter = FFileFilter;
+                    wDialog.Title = "名前を付けて保存";
+                    // デフォルトはＸＭＬファイル
+                    wDialog.FileName = "TodoItems.xml";
+                    wDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                    if (wDialog.ShowDialog() == DialogResult.OK)
                     {
-                        FService.Export(wDialog.FileName);
-                        MessageBox.Show(this, "保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    catch (Exception wEx)
-                    {
-                        MessageBox.Show(this, $"保存中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        try
+                        {
+                            FService.Export(wDialog.FileName);
+                            FCurrentFilePath = wDialog.FileName;
+                            MessageBox.Show(this, "保存しました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        catch (Exception wEx)
+                        {
+                            MessageBox.Show(this, $"保存中にエラーが発生しました：{wEx.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
             }
@@ -197,6 +217,7 @@ namespace ToDoManager
                     try
                     {
                         FService.Import(wDialog.FileName);
+                        FCurrentFilePath = wDialog.FileName;
                         UpdateList();
                         MessageBox.Show(this, "ファイルを読み込みました。", "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
