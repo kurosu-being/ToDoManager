@@ -80,7 +80,6 @@ namespace ToDoManager.Services
                 vExisting.Content = vItem.Content;
                 vExisting.DueDate = vItem.DueDate;
                 vExisting.IsCompleted = vItem.IsCompleted;
-                vExisting.Priority = vItem.Priority;
             }
             else
             {
