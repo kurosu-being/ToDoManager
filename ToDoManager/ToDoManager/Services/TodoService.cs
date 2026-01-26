@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
+using System.Xml.Serialization;
 using ToDoManager.Models;
 
 namespace ToDoManager.Services
@@ -14,25 +14,35 @@ namespace ToDoManager.Services
     {
         #region フィールド
         private List<TodoItem> FItems = new List<TodoItem>();
-        private string FFilePath;
-        private ITodoItemSerializer FXmlSerializer = new XmlTodoItemSerializer();
-        private ITodoItemSerializer FJsonSerializer = new JsonTodoItemSerializer();
+        private string C_FilePath = "todos.xml";
+
         #endregion
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public TodoService() { }
+        public TodoService()
+        {
+            if (!File.Exists(C_FilePath))
+            {
+                var wSampleItem = new TodoItem
+                {
+                    Title = "サンプルタスク",
+                    Content = "これはサンプルのToDoアイテムです。",
+                    DueDate = DateTime.Now,
+                    IsCompleted = false
+                };
+                FItems.Add(wSampleItem);
+
+                Export();
+            }
+            else
+            {
+                Import();
+            }
+        }
 
         #region publicメソッド
-        /// <summary>
-        /// ToDoアイテムのディクショナリを取得する
-        /// </summary>
-        /// <returns>Idをキー、TodoItemを値とするディクショナリ</returns>
-        public Dictionary<int, TodoItem> GetItemMap()
-        {
-            return FItems.ToDictionary(x => x.Id);
-        }
 
         /// <summary>
         /// フィルタ条件に一致するToDoアイテムの列挙を返す
@@ -41,7 +51,6 @@ namespace ToDoManager.Services
         /// <returns>条件に一致するToDoアイテムの列挙</returns>
         public IEnumerable<TodoItem> GetItems(string vFilter = null)
         {
-            // タイトルまたは内容にフィルタ文字列が含まれる場合のみ返す
             var wQuery = FItems.Where(x => string.IsNullOrEmpty(vFilter) || x.Title.Contains(vFilter) || x.Content.Contains(vFilter));
             foreach (var wItem in wQuery) yield return wItem;
         }
@@ -52,7 +61,6 @@ namespace ToDoManager.Services
         /// <returns>期限順のToDoアイテムリスト</returns>
         public List<TodoItem> GetSortedItems()
         {
-            if (!FItems.Any()) return new List<TodoItem>();
             return FItems.OrderBy(x => x.DueDate).ToList();
         }
 
@@ -64,8 +72,6 @@ namespace ToDoManager.Services
         public void AddOrUpdate(TodoItem vItem)
         {
             if (vItem == null) throw new ArgumentNullException(nameof(vItem));
-            //バリデーションチェック
-            vItem.Validate();
 
             var vExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
             if (vExisting != null)
@@ -92,35 +98,53 @@ namespace ToDoManager.Services
             if (vItem != null) FItems.Remove(vItem);
         }
 
-
         /// <summary>
-        /// 拡張子に応じたシリアライザを取得
+        /// XMLで保存
         /// </summary>
-        private ITodoItemSerializer GetSerializerByExtension(string vFilePath)
+        public void Export()
         {
-            var wExtension = Path.GetExtension(vFilePath)?.ToLower();
-            if (wExtension == ".json") return FJsonSerializer;
-            return FXmlSerializer;
+            var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
+            using (var wWriter = new StreamWriter(C_FilePath))
+            {
+                wSerializer.Serialize(wWriter, FItems);
+            }
         }
 
         /// <summary>
-        /// ファイルパスに応じてXML/JSONで保存
+        /// XMLで読込
         /// </summary>
-        public void Export(string vFilePath)
+        public bool Import()
         {
-            var wSerializer = GetSerializerByExtension(vFilePath);
-            wSerializer.Save(vFilePath, FItems);
-            FFilePath = vFilePath;
+            if (!File.Exists(C_FilePath)) return false;
+            var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
+            var wStreamReader = new StreamReader(C_FilePath);
+            FItems = (List<TodoItem>)wSerializer.Deserialize(wStreamReader);
+            
+            return true;
         }
 
         /// <summary>
-        /// ファイルパスに応じてXML/JSONで読込
+        /// 期限順にソート
         /// </summary>
-        public void Import(string vFilePath)
+        public void SortByDueDate()
         {
-            var wSerializer = GetSerializerByExtension(vFilePath);
-            FItems = wSerializer.Load(vFilePath);
-            FFilePath = vFilePath;
+            FItems.Clear();
+            foreach (var wItem in this.GetSortedItems())
+            {
+                FItems.Add(wItem);
+            }
+        }
+
+        /// <summary>
+        /// 追加順にソート
+        /// </summary>
+        public void SortByAddedOrder()
+        {
+            FItems.Clear();
+            foreach (var wItem in this.GetItems())
+            {
+                FItems.Add(wItem);
+            }
         }
 
         /// <summary>

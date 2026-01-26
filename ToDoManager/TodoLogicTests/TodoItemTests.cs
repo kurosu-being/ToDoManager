@@ -27,29 +27,7 @@ namespace ToDoManagerTests
         [ExpectedException(typeof(ArgumentException))]
         public void Validate_ThrowsException_WhenTitleIsEmpty()
         {
-            var wItem = new TodoItem { Title = "" };
-            wItem.Validate();
         }
 
-        /// <summary>
-        /// Validateでタイトルが空白のみの場合に例外が発生すること
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Validate_ThrowsException_WhenTitleIsWhitespace()
-        {
-            var wItem = new TodoItem { Title = "   " };
-            wItem.Validate();
-        }
-
-        /// <summary>
-        /// Validateでタイトルが1文字のとき例外が発生しないこと（境界値）
-        /// </summary>
-        [TestMethod]
-        public void Validate_DoesNotThrow_WhenTitleIsSingleChar()
-        {
-            var wItem = new TodoItem { Title = "A" };
-            wItem.Validate();
-        }
     }
 }

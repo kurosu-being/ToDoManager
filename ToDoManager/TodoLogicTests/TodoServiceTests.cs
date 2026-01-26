@@ -73,20 +73,6 @@ namespace ToDoManagerTests
         }
 
         /// <summary>
-        /// GetItemMapでディクショナリが正しく返ること
-        /// </summary>
-        [TestMethod]
-        public void GetItemMap_ReturnsDictionary()
-        {
-            var wService = new TodoService();
-            var wItem = new TodoItem { Title = "Test" };
-            wService.AddOrUpdate(wItem);
-            var wMap = wService.GetItemMap();
-            Assert.IsTrue(wMap.ContainsKey(wItem.Id));
-            Assert.AreEqual(wItem.Title, wMap[wItem.Id].Title);
-        }
-
-        /// <summary>
         /// AddOrUpdateでバリデーションエラー（タイトル未入力時）が発生すること
         /// </summary>
         [TestMethod]

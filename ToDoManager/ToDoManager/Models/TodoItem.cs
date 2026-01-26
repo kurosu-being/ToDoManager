@@ -46,18 +46,6 @@ namespace ToDoManager.Models
         [XmlElement("IsCompleted")]
         public bool IsCompleted { get; set; }
 
-        private PriorityLevel FPriority = PriorityLevel.Normal;
-
-        /// <summary>
-        /// 優先度
-        /// </summary>
-        [XmlElement("Priority")]
-        public PriorityLevel Priority
-        {
-            get { return FPriority; }
-            set { FPriority = value; }
-        }
-
         /// <summary>
         /// タイトルと完了状態を表す文字列を返します。
         /// </summary>
@@ -67,26 +55,5 @@ namespace ToDoManager.Models
             return $"[{(IsCompleted ? "完了" : "未")}] {Title}";
         }
 
-        /// <summary>
-        /// このアイテムが有効な状態か診断します。
-        /// 不正な場合は例外を投げます。
-        /// </summary>
-        public void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(this.Title))
-            {
-                throw new ArgumentException("タイトルは必須入力です。");
-            }
-        }
-    }
-
-    /// <summary>
-    /// 優先度レベル
-    /// </summary>
-    public enum PriorityLevel
-    {
-        High,
-        Normal,
-        Low
     }
 }
