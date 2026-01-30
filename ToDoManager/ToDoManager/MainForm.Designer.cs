@@ -97,7 +97,7 @@
             this.FChkDone.Name = "FChkDone";
             this.FChkDone.Size = new System.Drawing.Size(80, 19);
             this.FChkDone.TabIndex = 9;
-            this.FChkDone.Text = "完了";
+            this.FChkDone.Text = "完了(F)";
             // 
             // FLstItems
             // 
@@ -145,7 +145,6 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.Lavender;
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
@@ -153,7 +152,7 @@
             this.viewToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(690, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(690, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -163,21 +162,21 @@
             this.loadToolStripMenuItem,
             this.saveToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(79, 29);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
             this.fileToolStripMenuItem.Text = "ファイル";
             // 
             // loadToolStripMenuItem
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(170, 34);
-            this.loadToolStripMenuItem.Text = "読込(&L)";
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Text = "読込(L)";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.FBtnXmlLoad_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(170, 34);
-            this.saveToolStripMenuItem.Text = "保存(&S)";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Text = "保存(S)";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.FBtnXml_Click);
             // 
             // editToolStripMenuItem
@@ -185,13 +184,13 @@
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(64, 29);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.editToolStripMenuItem.Text = "編集";
             // 
             // addToolStripMenuItem
             // 
             this.addToolStripMenuItem.Name = "addToolStripMenuItem";
-            this.addToolStripMenuItem.Size = new System.Drawing.Size(172, 34);
+            this.addToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.addToolStripMenuItem.Text = "追加(&A)";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.FBtnAdd_Click);
             // 
@@ -201,20 +200,20 @@
             this.sortByDueDateToolStripMenuItem,
             this.sortByAddedOrderToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(64, 29);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.viewToolStripMenuItem.Text = "表示";
             // 
             // sortByDueDateToolStripMenuItem
             // 
             this.sortByDueDateToolStripMenuItem.Name = "sortByDueDateToolStripMenuItem";
-            this.sortByDueDateToolStripMenuItem.Size = new System.Drawing.Size(168, 34);
+            this.sortByDueDateToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.sortByDueDateToolStripMenuItem.Text = "期限順";
             this.sortByDueDateToolStripMenuItem.Click += new System.EventHandler(this.SortByDueDateToolStripMenuItem_Click);
             // 
             // sortByAddedOrderToolStripMenuItem
             // 
             this.sortByAddedOrderToolStripMenuItem.Name = "sortByAddedOrderToolStripMenuItem";
-            this.sortByAddedOrderToolStripMenuItem.Size = new System.Drawing.Size(168, 34);
+            this.sortByAddedOrderToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.sortByAddedOrderToolStripMenuItem.Text = "追加順";
             this.sortByAddedOrderToolStripMenuItem.Click += new System.EventHandler(this.SortByAddedOrderToolStripMenuItem_Click);
             // 
