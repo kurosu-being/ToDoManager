@@ -3,7 +3,6 @@ using System.Xml.Serialization;
 
 namespace ToDoManager.Models
 {
-    // 抽象クラス (OOP: 抽象化)
     /// <summary>
     /// ToDoエンティティの基底クラス
     /// </summary>
@@ -55,5 +54,15 @@ namespace ToDoManager.Models
             return $"[{(IsCompleted ? "完了" : "未")}] {Title}";
         }
 
+        /// <summary>
+        /// タイトルのバリデーションを行います。
+        /// </summary>
+        public void Validate()
+        {
+            if (string.IsNullOrWhiteSpace(Title))
+            {
+                throw new ArgumentException("タイトルは必須です。");
+            }
+        }
     }
 }

@@ -28,6 +28,5 @@ namespace ToDoManagerTests
         public void Validate_ThrowsException_WhenTitleIsEmpty()
         {
         }
-
     }
 }

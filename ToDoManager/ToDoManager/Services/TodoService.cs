@@ -23,23 +23,6 @@ namespace ToDoManager.Services
         /// </summary>
         public TodoService()
         {
-            if (!File.Exists(C_FilePath))
-            {
-                var wSampleItem = new TodoItem
-                {
-                    Title = "サンプルタスク",
-                    Content = "これはサンプルのToDoアイテムです。",
-                    DueDate = DateTime.Now,
-                    IsCompleted = false
-                };
-                FItems.Add(wSampleItem);
-
-                Export();
-            }
-            else
-            {
-                Import();
-            }
         }
 
         #region publicメソッド
@@ -73,13 +56,13 @@ namespace ToDoManager.Services
         {
             if (vItem == null) throw new ArgumentNullException(nameof(vItem));
 
-            var vExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
-            if (vExisting != null)
+            var wExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
+            if (wExisting != null)
             {
-                vExisting.Title = vItem.Title;
-                vExisting.Content = vItem.Content;
-                vExisting.DueDate = vItem.DueDate;
-                vExisting.IsCompleted = vItem.IsCompleted;
+                wExisting.Title = vItem.Title;
+                wExisting.Content = vItem.Content;
+                wExisting.DueDate = vItem.DueDate;
+                wExisting.IsCompleted = vItem.IsCompleted;
             }
             else
             {
@@ -94,8 +77,8 @@ namespace ToDoManager.Services
         /// <param name="vId">削除するToDoアイテムのID</param>
         public void Delete(int vId)
         {
-            var vItem = FItems.FirstOrDefault(x => x.Id == vId);
-            if (vItem != null) FItems.Remove(vItem);
+            var wItem = FItems.FirstOrDefault(x => x.Id == vId);
+            if (wItem != null) FItems.Remove(wItem);
         }
 
         /// <summary>
@@ -104,10 +87,8 @@ namespace ToDoManager.Services
         public void Export()
         {
             var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
-            using (var wWriter = new StreamWriter(C_FilePath))
-            {
-                wSerializer.Serialize(wWriter, FItems);
-            }
+            using (var wWriter = new StreamWriter(C_FilePath)) wSerializer.Serialize(wWriter, FItems);
+            
         }
 
         /// <summary>
