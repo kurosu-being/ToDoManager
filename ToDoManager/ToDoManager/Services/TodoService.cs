@@ -98,9 +98,12 @@ namespace ToDoManager.Services
         {
             if (!File.Exists(C_FilePath)) return false;
             var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
-            var wStreamReader = new StreamReader(C_FilePath);
-            FItems = (List<TodoItem>)wSerializer.Deserialize(wStreamReader);
-            
+            using (var wStreamReader = new StreamReader(C_FilePath))
+            {
+                FItems = (List<TodoItem>)wSerializer.Deserialize(wStreamReader);
+            }
+
+            SortByDueDate();
             return true;
         }
 
@@ -109,11 +112,7 @@ namespace ToDoManager.Services
         /// </summary>
         public void SortByDueDate()
         {
-            FItems.Clear();
-            foreach (var wItem in this.GetSortedItems())
-            {
-                FItems.Add(wItem);
-            }
+            var wSortedItems = FItems.OrderBy(x => x.DueDate);
         }
 
         /// <summary>
@@ -121,11 +120,7 @@ namespace ToDoManager.Services
         /// </summary>
         public void SortByAddedOrder()
         {
-            FItems.Clear();
-            foreach (var wItem in this.GetItems())
-            {
-                FItems.Add(wItem);
-            }
+            FItems = FItems.OrderBy(x => x.Id).ToList();
         }
 
         /// <summary>
