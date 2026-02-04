@@ -95,15 +95,7 @@ namespace ToDoManager.Services {
         /// 期限順にソート
         /// </summary>
         public void SortByDueDate() {
-            for (int i = 0; i < FItems.Count; i++) {
-                for (int j = 0; j < FItems.Count - i - 1; j++) {
-                    if (FItems[j].DueDate > FItems[j + 1].DueDate) {
-                        var wTemp = FItems[j];
-                        FItems[j] = FItems[j + 1];
-                        FItems[j + 1] = wTemp;
-                    }
-                }
-            }
+            var wTodoItems = FItems.OrderBy(x => x.DueDate).ToList();
         }
 
         /// <summary>
@@ -111,16 +103,16 @@ namespace ToDoManager.Services {
         /// </summary>
         public void SortByAddedOrder() {
             for (int i = 0; i < FItems.Count - 1; i++) {
-                int minIndex = i;
+                int wMinIndex = i;
                 for (int j = i + 1; j < FItems.Count; j++) {
-                    if (FItems[j].Id < FItems[minIndex].Id) {
-                        minIndex = j;
+                    if (FItems[j].Id < FItems[wMinIndex].Id) {
+                        wMinIndex = j;
                     }
                 }
-                if (minIndex != i) {
-                    var temp = FItems[i];
-                    FItems[i] = FItems[minIndex];
-                    FItems[minIndex] = temp;
+                if (wMinIndex != i) {
+                    var wTemp = FItems[i];
+                    FItems[i] = FItems[wMinIndex];
+                    FItems[wMinIndex] = wTemp;
                 }
             }
         }
