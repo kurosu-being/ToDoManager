@@ -35,21 +35,38 @@ namespace ToDoManager.Services {
         /// <summary>
         /// ToDoアイテムを追加または更新
         /// </summary>
-        /// <param name="vItem">追加・更新するToDoアイテム</param>
-        /// <returns>成功時true/失敗時false</returns>
+        /// <param name="vItem">追加または更新するToDoアイテム</param>
         public void AddOrUpdate(TodoItem vItem) {
             if (vItem == null) throw new ArgumentNullException(nameof(vItem));
-            TodoItem wExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
 
-            if (wExisting != null) {
-                wExisting.Title = vItem.Title;
-                wExisting.Content = vItem.Content;
-                wExisting.DueDate = vItem.DueDate;
-                wExisting.IsCompleted = vItem.IsCompleted;
+            if (vItem.Id == 0) {
+                Add(vItem);
             } else {
-                vItem.Id = FNextId++;
-                FItems.Add(vItem);
+                Update(vItem);
             }
+        }
+
+        /// <summary>
+        /// 新しいToDoアイテムをコレクションに追加
+        /// </summary>
+        /// <param name="vItem">ToDoアイテム</param>
+        private void Add(TodoItem vItem) {
+            vItem.Id = FNextId++;
+            FItems.Add(vItem);
+        }
+
+        /// <summary>
+        /// 既存のToDoアイテムの内容を更新
+        /// </summary>
+        /// <param name="vItem">ToDoアイテム</param>
+        private void Update(TodoItem vItem) {
+            TodoItem wExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
+            if (wExisting == null) throw new InvalidOperationException("更新対象のToDoが存在しません。");
+
+            wExisting.Title = vItem.Title;
+            wExisting.Content = vItem.Content;
+            wExisting.DueDate = vItem.DueDate;
+            wExisting.IsCompleted = vItem.IsCompleted;
         }
 
         /// <summary>
