@@ -56,32 +56,41 @@ namespace ToDoManagerTests {
         }
 
         /// <summary>
-        /// GetSortedItemsで期限順にソートされること
+        /// SortByDueDateで期限順にソートされること
         /// </summary>
         [TestMethod]
-        public void GetSortedItems_期限順にソート()
+        public void SortByDueDate_期限順ソート()
         {
             var wService = new TodoService();
-            var wItem1 = new TodoItem { Title = "A", DueDate = DateTime.Today.AddDays(2) };
-            var wItem2 = new TodoItem { Title = "B", DueDate = DateTime.Today.AddDays(1) };
+            var wItem1 = new TodoItem { Title = "Test1", DueDate = DateTime.Today.AddDays(1) };
+            var wItem2 = new TodoItem { Title = "Test2", DueDate = DateTime.Today };
             wService.AddOrUpdate(wItem1);
             wService.AddOrUpdate(wItem2);
-            var wSorted = wService.GetSortedItems();
-            Assert.AreEqual("B", wSorted[0].Title);
-            Assert.AreEqual("A", wSorted[1].Title);
+
+            wService.SortByDueDate();
+            var wItems = wService.GetItems().ToList();
+
+            Assert.AreEqual("Test2", wItems[0].Title);
+            Assert.AreEqual("Test1", wItems[1].Title);
         }
 
+        /// <summary>
+        /// SortByAddedOrderで追加順にソートされること
+        /// </summary>
         [TestMethod]
-        public void SortByAddedOrder_追加順にソート()
+        public void SortByAddedOrder_追加順ソート()
         {
             var wService = new TodoService();
-            var wItem1 = new TodoItem { Title = "First", DueDate = DateTime.Today.AddDays(2) };
-            var wItem2 = new TodoItem { Title = "Second", DueDate = DateTime.Today.AddDays(1) };
+            var wItem1 = new TodoItem { Title = "Test1", DueDate = DateTime.Today.AddDays(1) };
+            var wItem2 = new TodoItem { Title = "Test2", DueDate = DateTime.Today };
             wService.AddOrUpdate(wItem1);
             wService.AddOrUpdate(wItem2);
-            var wSorted = wService.GetItems().ToList();
-            Assert.AreEqual("First", wSorted[0].Title);
-            Assert.AreEqual("Second", wSorted[1].Title);
+
+            wService.SortByAddedOrder();
+            var wItems = wService.GetItems().ToList();
+
+            Assert.AreEqual("Test1", wItems[0].Title);
+            Assert.AreEqual("Test2", wItems[1].Title);
         }
     }
 }

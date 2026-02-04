@@ -34,12 +34,6 @@ namespace ToDoManager.Services {
         }
 
         /// <summary>
-        /// 期限順にソートされたToDoアイテムのリストを返す
-        /// </summary>
-        /// <returns>期限順のToDoアイテムリスト</returns>
-        public List<TodoItem> GetSortedItems() => FItems.OrderBy(x => x.DueDate).ToList();
-
-        /// <summary>
         /// ToDoアイテムを追加または更新
         /// </summary>
         /// <param name="vItem">追加・更新するToDoアイテム</param>
@@ -47,7 +41,14 @@ namespace ToDoManager.Services {
         public void AddOrUpdate(TodoItem vItem) {
             if (vItem == null) throw new ArgumentNullException(nameof(vItem));
 
-            var wExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
+            TodoItem wExisting = null;
+            foreach (var wItem in FItems) {
+                if (wItem.Id == vItem.Id) {
+                    wExisting = wItem;
+                    break;
+                }
+            }
+
             if (wExisting != null) {
                 wExisting.Title = vItem.Title;
                 wExisting.Content = vItem.Content;
@@ -94,13 +95,35 @@ namespace ToDoManager.Services {
         /// 期限順にソート
         /// </summary>
         public void SortByDueDate() {
-            var wSortedItems = FItems.OrderBy(x => x.DueDate);
+            for (int i = 0; i < FItems.Count; i++) {
+                for (int j = 0; j < FItems.Count - i - 1; j++) {
+                    if (FItems[j].DueDate > FItems[j + 1].DueDate) {
+                        var wTemp = FItems[j];
+                        FItems[j] = FItems[j + 1];
+                        FItems[j + 1] = wTemp;
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// 追加順にソート
         /// </summary>
-        public void SortByAddedOrder() => FItems = FItems.OrderBy(x => x.Id).ToList();
+        public void SortByAddedOrder() {
+            for (int i = 0; i < FItems.Count - 1; i++) {
+                int minIndex = i;
+                for (int j = i + 1; j < FItems.Count; j++) {
+                    if (FItems[j].Id < FItems[minIndex].Id) {
+                        minIndex = j;
+                    }
+                }
+                if (minIndex != i) {
+                    var temp = FItems[i];
+                    FItems[i] = FItems[minIndex];
+                    FItems[minIndex] = temp;
+                }
+            }
+        }
 
         /// <summary>
         /// リソースの解放処理
