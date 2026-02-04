@@ -15,17 +15,10 @@ namespace ToDoManager {
             InitializeComponent();
 
             UpdateList();
-            SetFieldsReadOnly(true);
         }
         #endregion
 
         #region UI操作
-        /// <summary>
-        /// 入力フィールドの編集可否を設定
-        /// </summary>
-        private void SetFieldsReadOnly(bool vIsReadOnly) {
-        }
-
         /// <summary>
         /// ToDoリストを更新
         /// </summary>
