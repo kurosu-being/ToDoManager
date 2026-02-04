@@ -12,6 +12,7 @@ namespace ToDoManager.Services {
     public class TodoService : IDisposable {
         #region フィールド
         private List<TodoItem> FItems = new List<TodoItem>();
+        private int FNextId = 1;
         private string C_FilePath = "todos.xml";
         #endregion
 
@@ -24,13 +25,11 @@ namespace ToDoManager.Services {
         #region publicメソッド
 
         /// <summary>
-        /// フィルタ条件に一致するToDoアイテムの列挙を返す
+        /// ToDoアイテムの一覧を取得する
         /// </summary>
-        /// <param name="vFilter">タイトルまたは内容に含まれる文字列（nullまたは空で全件）</param>
-        /// <returns>条件に一致するToDoアイテムの列挙</returns>
-        public IEnumerable<TodoItem> GetItems(string vFilter = null) {
-            var wQuery = FItems.Where(x => string.IsNullOrEmpty(vFilter) || x.Title.Contains(vFilter) || x.Content.Contains(vFilter));
-            foreach (var wItem in wQuery) yield return wItem;
+        /// <returns>登録されているToDoアイテムの読み取り専用リスト</returns>
+        public IReadOnlyList<TodoItem> GetItems() {
+            return FItems;
         }
 
         /// <summary>
@@ -40,14 +39,7 @@ namespace ToDoManager.Services {
         /// <returns>成功時true/失敗時false</returns>
         public void AddOrUpdate(TodoItem vItem) {
             if (vItem == null) throw new ArgumentNullException(nameof(vItem));
-
-            TodoItem wExisting = null;
-            foreach (var wItem in FItems) {
-                if (wItem.Id == vItem.Id) {
-                    wExisting = wItem;
-                    break;
-                }
-            }
+            TodoItem wExisting = FItems.FirstOrDefault(x => x.Id == vItem.Id);
 
             if (wExisting != null) {
                 wExisting.Title = vItem.Title;
@@ -55,18 +47,9 @@ namespace ToDoManager.Services {
                 wExisting.DueDate = vItem.DueDate;
                 wExisting.IsCompleted = vItem.IsCompleted;
             } else {
-                vItem.Id = FItems.Any() ? FItems.Max(x => x.Id) + 1 : 1;
+                vItem.Id = FNextId++;
                 FItems.Add(vItem);
             }
-        }
-
-        /// <summary>
-        /// 指定したIDのToDoアイテムを削除
-        /// </summary>
-        /// <param name="vId">削除するToDoアイテムのID</param>
-        public void Delete(int vId) {
-            var wItem = FItems.FirstOrDefault(x => x.Id == vId);
-            if (wItem != null) FItems.Remove(wItem);
         }
 
         /// <summary>
@@ -82,12 +65,14 @@ namespace ToDoManager.Services {
         /// </summary>
         public bool Import() {
             if (!File.Exists(C_FilePath)) return false;
+
             var wSerializer = new XmlSerializer(typeof(List<TodoItem>));
             using (var wStreamReader = new StreamReader(C_FilePath)) {
                 FItems = (List<TodoItem>)wSerializer.Deserialize(wStreamReader);
             }
 
-            SortByDueDate();
+            FNextId = FItems.Any() ? FItems.Max(x => x.Id) + 1 : 1;
+
             return true;
         }
 

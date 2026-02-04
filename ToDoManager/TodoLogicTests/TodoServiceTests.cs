@@ -42,20 +42,6 @@ namespace ToDoManagerTests {
         }
 
         /// <summary>
-        /// Deleteでアイテムが削除されること
-        /// </summary>
-        [TestMethod]
-        public void Delete_ToDoの削除()
-        {
-            var wService = new TodoService();
-            var wItem = new TodoItem { Title = "Test", Content = "TestContent", DueDate = DateTime.Today, IsCompleted = false };
-            wService.AddOrUpdate(wItem);
-            wService.Delete(wItem.Id);
-            var wItems = wService.GetItems().ToList();
-            Assert.AreEqual(0, wItems.Count);
-        }
-
-        /// <summary>
         /// SortByDueDateで期限順にソートされること
         /// </summary>
         [TestMethod]

@@ -29,9 +29,9 @@ namespace ToDoManager {
         /// <summary>
         /// ToDoリストを更新
         /// </summary>
-        private void UpdateList(string vFilter = null) {
+        private void UpdateList() {
             FLstItems.Items.Clear();
-            foreach (var wItem in FService.GetItems(vFilter)) FLstItems.Items.Add(wItem);
+            foreach (var wItem in FService.GetItems()) FLstItems.Items.Add(wItem);
         }
         #endregion
 
@@ -55,16 +55,6 @@ namespace ToDoManager {
         }
 
         /// <summary>
-        /// アイテムを削除
-        /// </summary>
-        private void DeleteItem() {
-            if (FLstItems.SelectedItem is TodoItem wSelected) {
-                FService.Delete(wSelected.Id);
-                UpdateList();
-            }
-        }
-
-        /// <summary>
         /// アイテムを編集
         /// </summary>
         private void EditItem() {
@@ -82,7 +72,6 @@ namespace ToDoManager {
         #region イベントハンドラ
         private void FBtnAdd_Click(object sender, EventArgs e) => AddItem();
         private void FBtnEdit_Click(object sender, EventArgs e) => EditItem();
-        private void FBtnDelete_Click(object sender, EventArgs e) => DeleteItem();
         private void FBtnXml_Click(object sender, EventArgs e) => FService.Export();
         private void SortByDueDateToolStripMenuItem_Click(object sender, EventArgs e) => FService.SortByDueDate();
         private void SortByAddedOrderToolStripMenuItem_Click(object sender, EventArgs e) => FService.SortByAddedOrder();
