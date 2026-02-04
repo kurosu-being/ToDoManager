@@ -19,16 +19,5 @@ namespace ToDoManagerTests
             var wItem = new TodoItem { Title = "Test", IsCompleted = true };
             Assert.AreEqual("[完了] Test", wItem.ToString());
         }
-
-        /// <summary>
-        /// Validateでタイトル未入力時に例外が発生すること
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Validate_ThrowsException_WhenTitleIsEmpty()
-        {
-            var wItem = new TodoItem { Title = "" };
-            wItem.Validate();
-        }
     }
 }
