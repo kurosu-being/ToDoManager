@@ -46,7 +46,5 @@ namespace ToDoManager.Models {
         /// </summary>
         /// <returns>表示用文字列</returns>
         public override string ToString() => $"[{(IsCompleted ? "完了" : "未")}] {Title}";
-
-
     }
 }

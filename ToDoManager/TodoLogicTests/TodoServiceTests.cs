@@ -9,14 +9,12 @@ namespace ToDoManagerTests {
     /// TodoServiceの単体テストクラス
     /// </summary>
     [TestClass]
-    public class TodoServiceTests
-    {
+    public class TodoServiceTests {
         /// <summary>
         /// AddOrUpdateで新規アイテムが追加されること
         /// </summary>
         [TestMethod]
-        public void AddOrUpdate_ToDoの追加()
-        {
+        public void AddOrUpdate_ToDoの追加() {
             var wService = new TodoService();
             var wItem = new TodoItem { Title = "Test", Content = "TestContent", DueDate = DateTime.Today, IsCompleted = false };
             wService.AddOrUpdate(wItem);
@@ -29,8 +27,7 @@ namespace ToDoManagerTests {
         /// AddOrUpdateで既存アイテムが更新されること
         /// </summary>
         [TestMethod]
-        public void AddOrUpdate_ToDoの更新()
-        {
+        public void AddOrUpdate_ToDoの更新() {
             var wService = new TodoService();
             var wItem = new TodoItem { Title = "Test", Content = "TestContent", DueDate = DateTime.Today, IsCompleted = false };
             wService.AddOrUpdate(wItem);
@@ -45,8 +42,7 @@ namespace ToDoManagerTests {
         /// SortByDueDateで期限順にソートされること
         /// </summary>
         [TestMethod]
-        public void SortByDueDate_期限順ソート()
-        {
+        public void SortByDueDate_期限順ソート() {
             var wService = new TodoService();
             var wItem1 = new TodoItem { Title = "Test1", DueDate = DateTime.Today.AddDays(1) };
             var wItem2 = new TodoItem { Title = "Test2", DueDate = DateTime.Today };
@@ -64,8 +60,7 @@ namespace ToDoManagerTests {
         /// SortByAddedOrderで追加順にソートされること
         /// </summary>
         [TestMethod]
-        public void SortByAddedOrder_追加順ソート()
-        {
+        public void SortByAddedOrder_追加順ソート() {
             var wService = new TodoService();
             var wItem1 = new TodoItem { Title = "Test1", DueDate = DateTime.Today.AddDays(1) };
             var wItem2 = new TodoItem { Title = "Test2", DueDate = DateTime.Today };
