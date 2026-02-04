@@ -3,18 +3,15 @@ using System.Windows.Forms;
 using ToDoManager.Models;
 using ToDoManager.Services;
 
-namespace ToDoManager
-{
+namespace ToDoManager {
     /// <summary>
     /// メインのToDo管理フォーム
     /// </summary>
-    public partial class MainForm : Form
-    {
+    public partial class MainForm : Form {
         #region フィールド・初期化
         private readonly TodoService FService = new TodoService();
 
-        public MainForm()
-        {
+        public MainForm() {
             InitializeComponent();
 
             UpdateList();
@@ -26,50 +23,31 @@ namespace ToDoManager
         /// <summary>
         /// 入力フィールドの編集可否を設定
         /// </summary>
-        private void SetFieldsReadOnly(bool vIsReadOnly)
-        {
+        private void SetFieldsReadOnly(bool vIsReadOnly) {
         }
 
         /// <summary>
         /// ToDoリストを更新
         /// </summary>
-        private void UpdateList(string vFilter = null)
-        {
+        private void UpdateList(string vFilter = null) {
             FLstItems.Items.Clear();
-            foreach (var wItem in FService.GetItems(vFilter))
-            {
-                FLstItems.Items.Add(wItem);
-            }
+            foreach (var wItem in FService.GetItems(vFilter)) FLstItems.Items.Add(wItem);
         }
-
-        /// <summary>
-        /// 詳細フィールドを選択アイテムで更新
-        /// </summary>
-
-
         #endregion
 
         #region ToDo操作
         /// <summary>
         /// 追加アイテムを処理
         /// </summary>
-        private void AddItem()
-        {
-            using (var wForm = new TodoEditForm(new TodoItem()))
-            {
-                if (wForm.ShowDialog() == DialogResult.OK)
-                {
-                    try
-                    {
+        private void AddItem() {
+            using (var wForm = new TodoEditForm(new TodoItem())) {
+                if (wForm.ShowDialog() == DialogResult.OK) {
+                    try {
                         FService.AddOrUpdate(wForm.Item);
                         UpdateList();
-                    }
-                    catch (ArgumentException wEx)
-                    {
+                    } catch (ArgumentException wEx) {
                         MessageBox.Show(this, wEx.Message, "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    catch (Exception wEx)
-                    {
+                    } catch (Exception wEx) {
                         MessageBox.Show(this, $"保存に失敗しました：{wEx.Message}", "システムエラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
@@ -79,10 +57,8 @@ namespace ToDoManager
         /// <summary>
         /// アイテムを削除
         /// </summary>
-        private void DeleteItem()
-        {
-            if (FLstItems.SelectedItem is TodoItem wSelected)
-            {
+        private void DeleteItem() {
+            if (FLstItems.SelectedItem is TodoItem wSelected) {
                 FService.Delete(wSelected.Id);
                 UpdateList();
             }
@@ -91,21 +67,16 @@ namespace ToDoManager
         /// <summary>
         /// アイテムを編集
         /// </summary>
-        private void EditItem()
-        {
-            if (FLstItems.SelectedItem is TodoItem wSelected)
-            {
-                using (var wForm = new TodoEditForm(wSelected))
-                {
-                    if (wForm.ShowDialog() == DialogResult.OK)
-                    {
+        private void EditItem() {
+            if (FLstItems.SelectedItem is TodoItem wSelected) {
+                using (var wForm = new TodoEditForm(wSelected)) {
+                    if (wForm.ShowDialog() == DialogResult.OK) {
                         FService.AddOrUpdate(wForm.Item);
                         UpdateList();
                     }
                 }
             }
         }
-
         #endregion
 
         #region イベントハンドラ
@@ -115,15 +86,11 @@ namespace ToDoManager
         private void FBtnXml_Click(object sender, EventArgs e) => FService.Export();
         private void SortByDueDateToolStripMenuItem_Click(object sender, EventArgs e) => FService.SortByDueDate();
         private void SortByAddedOrderToolStripMenuItem_Click(object sender, EventArgs e) => FService.SortByAddedOrder();
-        private void FBtnXmlLoad_Click(object sender, EventArgs e)
-        {
-            if (FService.Import())
-            {
+        private void FBtnXmlLoad_Click(object sender, EventArgs e) {
+            if (FService.Import()) {
                 UpdateList();
                 MessageBox.Show(this, "データを読み込みました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
+            } else {
                 MessageBox.Show(this, "指定ファイルが存在しません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

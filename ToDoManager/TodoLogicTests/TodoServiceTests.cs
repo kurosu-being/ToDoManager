@@ -4,8 +4,7 @@ using System.Linq;
 using ToDoManager.Models;
 using ToDoManager.Services;
 
-namespace ToDoManagerTests
-{
+namespace ToDoManagerTests {
     /// <summary>
     /// TodoServiceの単体テストクラス
     /// </summary>

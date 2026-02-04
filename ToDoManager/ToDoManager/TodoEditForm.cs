@@ -2,13 +2,11 @@
 using System.Windows.Forms;
 using ToDoManager.Models;
 
-namespace ToDoManager
-{
+namespace ToDoManager {
     /// <summary>
     /// ToDoアイテムの編集フォーム
     /// </summary>
-    public partial class TodoEditForm : Form
-    {
+    public partial class TodoEditForm : Form {
         #region フィールド・プロパティ
         /// <summary>
         /// 編集対象のToDoアイテムを取得
@@ -21,10 +19,9 @@ namespace ToDoManager
         /// コンストラクタ
         /// </summary>
         /// <param name="vItem">編集対象のToDoアイテム</param>
-        public TodoEditForm(TodoItem vItem)
-        {
+        public TodoEditForm(TodoItem vItem) {
             InitializeComponent();
-            this.Item = vItem;
+            Item = vItem;
             FTxtTitle.Text = vItem.Title;
             FTxtContent.Text = vItem.Content;
             FDtpDueDate.Value = vItem.DueDate == default(DateTime) ? DateTime.Now : vItem.DueDate;
@@ -36,18 +33,14 @@ namespace ToDoManager
         /// <summary>
         /// 入力内容をItemに反映しバリデーションする
         /// </summary>
-        private void SaveItem()
-        {
-
+        private void SaveItem() {
             Item.Title = FTxtTitle.Text;
             Item.Content = FTxtContent.Text;
             Item.DueDate = FDtpDueDate.Value;
             Item.IsCompleted = FChkDone.Checked;
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-
-
+            DialogResult = DialogResult.OK;
+            Close();
         }
         #endregion
 

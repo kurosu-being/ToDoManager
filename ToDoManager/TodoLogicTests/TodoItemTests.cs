@@ -27,6 +27,8 @@ namespace ToDoManagerTests
         [ExpectedException(typeof(ArgumentException))]
         public void Validate_ThrowsException_WhenTitleIsEmpty()
         {
+            var wItem = new TodoItem { Title = "" };
+            wItem.Validate();
         }
     }
 }
