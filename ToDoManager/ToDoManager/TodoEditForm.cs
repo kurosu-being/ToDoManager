@@ -59,7 +59,6 @@ namespace ToDoManager
                 // 優先度保存
                 Item.Priority = FCmbPriority.SelectedIndex == 0 ? PriorityLevel.High : FCmbPriority.SelectedIndex == 1 ? PriorityLevel.Normal : PriorityLevel.Low;
 
-                // バリデーションチェック
                 Item.Validate();
 
                 this.DialogResult = DialogResult.OK;

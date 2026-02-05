@@ -71,15 +71,14 @@ namespace ToDoManager
         private void UpdateDetailFields()
         {
             SetFieldsReadOnly(true);
-            if (FLstItems.SelectedItem is TodoItem vSelected)
+            if (FLstItems.SelectedItem is TodoItem wSelected)
             {
-                FTxtTitle.Text = vSelected.Title;
-                FTxtContent.Text = vSelected.Content;
-                FDtpDueDate.Value = vSelected.DueDate;
-                FChkDone.Checked = vSelected.IsCompleted;
-                FMainCmbPriority.SelectedIndex = vSelected.Priority == PriorityLevel.High ? 0 : vSelected.Priority == PriorityLevel.Normal ? 1 : 2;
-                // REQ-02: 期限切れ警告
-                FTxtTitle.BackColor = (!vSelected.IsCompleted && FDtpDueDate.Value < DateTime.Today) ? System.Drawing.Color.Yellow : System.Drawing.SystemColors.Control;
+                FTxtTitle.Text = wSelected.Title;
+                FTxtContent.Text = wSelected.Content;
+                FDtpDueDate.Value = wSelected.DueDate;
+                FChkDone.Checked = wSelected.IsCompleted;
+                FMainCmbPriority.SelectedIndex = wSelected.Priority == PriorityLevel.High ? 0 : wSelected.Priority == PriorityLevel.Normal ? 1 : 2;
+                FTxtTitle.BackColor = (!wSelected.IsCompleted && FDtpDueDate.Value < DateTime.Today) ? System.Drawing.Color.Yellow : System.Drawing.SystemColors.Control;
             }
             else
             {
