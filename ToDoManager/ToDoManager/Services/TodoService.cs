@@ -9,7 +9,7 @@ namespace ToDoManager.Services {
     /// <summary>
     /// ToDoアイテムの管理や永続化を行うサービスクラス
     /// </summary>
-    public class TodoService : IDisposable {
+    public class TodoService {
         #region フィールド
         private List<TodoItem> FItems = new List<TodoItem>();
         private int FNextId = 1;
@@ -117,12 +117,6 @@ namespace ToDoManager.Services {
                     FItems[wMinIndex] = wTemp;
                 }
             }
-        }
-
-        /// <summary>
-        /// リソースの解放処理
-        /// </summary>
-        public void Dispose() {
         }
         #endregion
     }

@@ -3,20 +3,15 @@ using System.Xml.Serialization;
 
 namespace ToDoManager.Models {
     /// <summary>
-    /// ToDoエンティティの基底クラス
+    /// ToDoアイテムのエンティティクラス
     /// </summary>
-    public abstract class EntityBase {
+    [Serializable]
+    public class TodoItem {
         /// <summary>
         /// ID
         /// </summary>
         public int Id { get; set; }
-    }
 
-    /// <summary>
-    /// ToDoアイテムのエンティティクラス
-    /// </summary>
-    [Serializable]
-    public class TodoItem : EntityBase {
         /// <summary>
         /// タイトル
         /// </summary>
